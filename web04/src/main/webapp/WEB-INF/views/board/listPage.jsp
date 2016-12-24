@@ -95,37 +95,37 @@
 <td colspan="10" style="text-align: center;">
    <div class="pagination">
 	  <ul>
-	  <c:if test="${ page.curPage > 1}">
-	  	  	<li><a href="/board/board_list.do?curPage=1">[시작]</a></li>
+	  <c:if test="${ param.page > 1}">
+	  	  	<li><a href="/board/listPage${ pageMaker.makeQuery(1) }">[시작]</a></li>
 	  </c:if>
 	  
-	   <c:if test="${ page.curBlock > 1 }">
-	   	<li><a href="/board/board_list.do?curPage=${page.prevPage }">&laquo;</a></li>
+	   <c:if test="${ pageMaker.prev }">
+	   	<li><a href="/board/listPage${ pageMaker.makeQuery(pageMaker.startPage - 1) }">&laquo;</a></li>
 	   </c:if>
 	       
-	  <c:forEach  begin="${ page.blockStart }" end="${ page.blockEnd }" step="1"  var="pageNum">	 
+	  <c:forEach  begin="${ pageMaker.startPage }" end="${ pageMaker.endPage }" step="1"  var="pageNum">	 
 		<c:choose>
-		  <c:when test="${ param.curPage == pageNum }">
+		  <c:when test="${ pageMaker.cri.page == pageNum }">
 		       <li class="active">
-	  	 	<a href="/board/board_list.do?curPage=${pageNum}" style="background:#E85356; color:white; ">${pageNum }</a>
+	  	 	<a href="/board/listPage${pageMaker.makeQuery(pageNum) }" style="background:#E85356; color:white; ">${pageNum }</a>
 	  	 		</li>
 		  </c:when>
 		  <c:otherwise>
 		       <li>
-	  	 	<a href="/board/board_list.do?curPage=${pageNum}">${pageNum }</a>
+	  	 	<a href="/board/listPage${pageMaker.makeQuery(pageNum) }">${pageNum }</a>
 	  	 		</li>
 		  </c:otherwise>
 		</c:choose>
 		
 	  </c:forEach>
 	 	 
-	 	<c:if test="${page.curBlock <= page.totBlock }" >
-	 		<li><a href="/board/board_list.do?curPage=${page.nextPage}">&raquo;</a></li>
+	 	<c:if test="${pageMaker.next && pageMaker.endPage > 0 }" >
+	 		<li><a href="/board/listPage${pageMaker.makeQuery(pageMaker.endPage + 1) }">&raquo;</a></li>
 	 	</c:if>   
 	  
 	  <!-- 마지막 페이지 -->
-	  <c:if test="${page.curPage < page.totPage}">
-	    <li><a href="/board/board_list.do?curPage=${page.totPage }">[끝]</a></li>
+	  <c:if test="${ param.page < pageMaker.tempEndPage}">
+	    <li><a href="/board/listPage${ pageMaker.makeQuery(pageMaker.tempEndPage) }">[끝]</a></li>
 	  </c:if>
 	    
 	    

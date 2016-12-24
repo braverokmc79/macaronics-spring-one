@@ -1,5 +1,8 @@
 package com.example.wbe04.util.mysql;
 
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
+
 import lombok.Data;
 
 @Data
@@ -10,6 +13,9 @@ public class PageMaker {
 	private int endPage;
 	private boolean prev;
 	private boolean next;
+	
+	private int tempEndPage; //마지막 페이지
+	
 	
 	private int displayPageNum =10;
 	
@@ -28,7 +34,7 @@ public class PageMaker {
 			
 			startPage =(endPage - displayPageNum) +1;
 			
-			int tempEndPage =(int)(Math.ceil(totalCount/(double)cri.getPerPageNum()));
+			tempEndPage =(int)(Math.ceil(totalCount/(double)cri.getPerPageNum()));
 		
 			if(endPage >tempEndPage){
 				endPage=tempEndPage;
@@ -39,7 +45,15 @@ public class PageMaker {
 	}
 	
 	
-	
+	public String makeQuery(int page){
+		
+		UriComponents uriComponents =
+				UriComponentsBuilder.newInstance()
+				.queryParam("page", page)
+				.queryParam("perPageNum", cri.getPerPageNum())
+				.build();
+		return uriComponents.toUriString();
+	}
 	
 	
 }
