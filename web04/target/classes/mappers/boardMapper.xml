@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 다른 mapper와 중복되지 않도록 네임스페이스 기재 -->
+<mapper namespace="board.Mapper">
+	
+	
+<!-- 	        MYSQL -->
+
+<select id="listPage" resultType="BoardDTO">
+		select * from board where idx > 0 order by idx desc limit #{page} , 10
+</select>
+<select id="listCritera" resultType="BoardDTO">
+		select * from board_v where idx > 0 order by idx desc limit #{pageStart} , #{perPageNum}
+</select>
+
+	
+	
+	<insert id="boardInsert">
+	
+ INSERT INTO board( userid ,subject ,content ,fileName ,filesize ) 
+		VALUES (#{userid} ,#{subject} ,#{content} , #{fileName} , #{filesize} ) 
+	</insert>
+	
+	<update id="downCont">
+		update board set down =down+1  where idx = #{idx};
+	</update>
+
+
+	<select id="pageTotalCount" resultType="int">
+	  select count(*) from board
+	</select>
+	
+
+
+ 
+
+
+<!-- 
+	<select id="boardList" resultType="BoardDTO">
+		
+ select idx, userid, username, subject, hit, post_date, rn 
+  
+ from
+ 	(
+	select A.*, rownum as rn
+	 from
+	(
+		select b.IDX , b.USERID, m.username, b.SUBJECT, b.HIT, b.POST_DATE   from board b, tbl_member m
+		
+		where  b.userid =m.userid
+		order by idx desc
+	) A
+
+ )
+  where  rn BETWEEN #{start} and #{end}
+
+	
+	</select>
+	
+	
+	<insert id="boardInsert">
+	
+ INSERT INTO board( userid ,subject ,content ,fileName ,filesize ) 
+		VALUES (#{userid} ,#{subject} ,#{content} , #{fileName} , #{filesize} ) 
+	</insert>
+	
+	<update id="downCont">
+		update board set down =down+1  where idx = #{idx};
+	</update>
+
+
+	
+	<select id="pageTotalCount" resultType="int">
+	  select count(*) from board
+	</select>
+
+
+ -->
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
