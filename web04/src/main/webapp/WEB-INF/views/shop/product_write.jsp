@@ -7,6 +7,10 @@
 
 <%@ include file="../include/menu.jsp"  %>
 
+<!--   ckeditor 연결  -->
+<script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
+
+
 <div class="bg-content">       
   <!--============================== content =================================-->      
 
@@ -57,7 +61,21 @@
 <td><input class="span5" type="text" name="price" id="price"></td></tr>
 <tr class="alt">
 <td><code>상세 내용</code> </td>
-<td> <textarea class="span5"  name="description" id="description"></textarea></td>
+<td> <textarea class="span5"  name="description" id="description"></textarea>
+<script>
+CKEDITOR.replace("description", {
+	
+	
+	 filebrowserImageUploadUrl: "/imageUpload.do"
+	//filebrowserUploadUrl :"/imageUpload.do"
+		 
+});
+
+</script>
+
+</td>
+
+
 </tr>
 
 <tr class="alt">
@@ -79,17 +97,9 @@
 </table>
 </form>	
 
-
-
-
 </div>
 					
 				
-
-
- 
-
-
 
 
 

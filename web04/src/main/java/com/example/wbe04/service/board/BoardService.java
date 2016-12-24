@@ -17,6 +17,8 @@ public interface BoardService {
 	
 	//MYSQL
 	public List<BoardDTO> listCriteria(Criteria cri) throws Exception;
+
+	public BoardDTO boardView(int idx);
 	
 	
 }

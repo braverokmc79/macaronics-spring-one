@@ -25,6 +25,8 @@ public interface BoardDAO {
 	
 	//MYSQL
 	public List<BoardDTO> listCritera(Criteria cri) throws Exception;
+
+	public BoardDTO boardView(int idx);
 	
 }
 

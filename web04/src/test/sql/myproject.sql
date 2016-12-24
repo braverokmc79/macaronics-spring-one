@@ -433,7 +433,7 @@ select idx, username, subject, post_date, hit, ref, depth,
 	
 	
 create or replace view board_v as 
-select idx, username, subject, post_date, hit, ref, depth, down, filename,	
+select idx, username, subject, content, post_date, hit, ref, depth, down, filename,	
 	reorder from board b , tbl_member m
 	where b.userid =m.userid
 	order by b.idx desc; 

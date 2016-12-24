@@ -99,6 +99,14 @@ public class BoardDAOImpl implements BoardDAO {
 		return sqlSession.selectList(namespace+".listCritera", cri);
 	}
 
+
+
+	@Override
+	public BoardDTO boardView(int idx) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(namespace+".boardView", idx);
+	}
+
 	
 	
 	

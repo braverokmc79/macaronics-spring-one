@@ -60,7 +60,7 @@
 <td>${dto.price}</td></tr>
 <tr class="alt">
 <td><code>비고</code> </td>
-<td>${dto.description }</td></tr>
+<td>${dto.description } </td></tr>
 </tbody>
 <tfoot>
 <tr>

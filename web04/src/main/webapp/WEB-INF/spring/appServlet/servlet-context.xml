@@ -25,6 +25,11 @@
 	mapping="url pattern" logaction="실제경로" 
 	-->
 	<resources mapping="/resources/**" location="/resources/" />
+	
+	<!-- ckeditor 리소스 설정 -->
+	<resources mapping="/ckeditor/**" location="/WEB-INF/views/ckeditor/" />
+	
+	
 	<resources mapping="/images/**" location="/WEB-INF/views/images/" />
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
 		in the /WEB-INF/views directory -->

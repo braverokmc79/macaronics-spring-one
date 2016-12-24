@@ -101,7 +101,7 @@ public class BoardController {
 				}	
 			}	
 			//list.do 로 이동
-			return "redirect:board_list.do";
+			return "redirect:listPage";
 		}
 	}
 	
@@ -209,7 +209,16 @@ public class BoardController {
 	}
 	
 	
-	
+	@RequestMapping(value="/view.do", method=RequestMethod.GET)
+	public String viewDo(@RequestParam("idx") int idx, Model model){
+		
+		
+		//board_v idx 값을 가져온다.
+		
+		model.addAttribute("view", boardService.boardView(idx));
+		
+		return  "/board/view";
+	}
 	
 	
 	

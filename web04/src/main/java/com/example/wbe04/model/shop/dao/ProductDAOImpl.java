@@ -60,12 +60,12 @@ public class ProductDAOImpl implements ProductDAO {
 				//칸띄우기
 				//<  태그 xmp
 				//스크립트 처리
-				String str=content.replace("\n", "<br>")
+/*				String str=content.replace("\n", "<br>")
 						.replace("  ", "&nbsp;&nbsp;")
 						.replace("<", "&lt")
 						.replace(">", "&gt");
 			
-				dto.setDescription(str);
+				dto.setDescription(str);*/
 				//logger.info(str);
 			
 			sqlSession.insert(namespace+".product_write", dto);

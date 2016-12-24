@@ -62,7 +62,7 @@
 	
 	<td>${row.username}</td>
 	
-	<td>${row.subject}</td>
+	<td><a href="/board/view.do?idx=${row.idx }">${row.subject}</a></td>
 	
 	<td>${row.post_date}</td>
 

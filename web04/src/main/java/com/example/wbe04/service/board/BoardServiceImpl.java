@@ -57,6 +57,13 @@ public class BoardServiceImpl implements BoardService {
 		return boardDAO.listCritera(cri);
 	}
 
+
+	@Override
+	public BoardDTO boardView(int idx) {
+		// TODO Auto-generated method stub
+		return boardDAO.boardView(idx);
+	}
+
 	
 	
 	

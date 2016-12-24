@@ -14,6 +14,10 @@
 
 <%@ include file="../include/sessionCheck.jsp"  %>
 
+<!--   ckeditor 연결  -->
+<script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
+
+
 
 <div class="bg-content">       
   <!--============================== content =================================-->      
@@ -57,6 +61,17 @@
 <td>내용</td>
 <td class="span12">
 <textarea rows="5" class="form-control" name="content"></textarea>
+<!-- textarea 를 ckeditor 로 변경 시킴 -->
+<script>
+CKEDITOR.replace("content", {
+	
+	filebrowserUploadUrl :"/imageUpload.do"
+   // filebrowserImageUploadUrl: 'MacaronicsServlet?command=ckeditor_upload'	
+});
+</script>
+
+
+
 </td>
 </tr>
 
@@ -90,10 +105,12 @@
 
 
 
-
-
 </div>
 </div>
+
+
+
+
 
 
 <%@  include file="../include/footer.jsp" %>
