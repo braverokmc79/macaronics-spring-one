@@ -28,6 +28,10 @@ public interface BoardDAO {
 
 	public BoardDTO boardView(int idx);
 	
+	
+	public void updateHit(int idx) throws Exception;
+	
+	
 }
 
 

@@ -38,8 +38,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from board_v where idx=#{idx}
 	</select>
 
- 
-
+<!-- 조회수 증가 -->
+	<update id="updateHit">
+	update board set hit=hit+1 where idx=#{idx};
+	 
+	</update>
 
 <!-- 
 	<select id="boardList" resultType="BoardDTO">

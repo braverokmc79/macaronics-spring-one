@@ -15,7 +15,10 @@
 	.pagination > ul >li a:hover{
 	   background-color: #E85356;
 	}
-	
+	.control2 a:hover{
+		color:blue;
+		text-decoration: none;
+	}	
 </style>
 
 
@@ -42,7 +45,7 @@
 <tr class="alt">
 <th><code>번호</code> </th>
 <th><code>글쓴이</code> </th>
-<th><code>제목</code> </th>
+<th><code>제목 </code> </th>
 <th><code>등록 날짜</code> </th>
 <th><code>조회수</code> </th>
 <th><code>첨부파일</code> </th>
@@ -62,7 +65,9 @@
 	
 	<td>${row.username}</td>
 	
-	<td><a href="/board/view.do?idx=${row.idx }">${row.subject}</a></td>
+	<td class="control2"><a href="/board/view.do?idx=${row.idx }">${row.subject}
+	 <c:if test="${ row.comment_count > 0}" ><small style="color:blue;">[ ${row.comment_count } ]</small></c:if>
+	</a></td>
 	
 	<td>${row.post_date}</td>
 

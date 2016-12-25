@@ -434,8 +434,27 @@ select idx, username, subject, post_date, hit, ref, depth,
 	
 create or replace view board_v as 
 select idx, username, subject, content, post_date, hit, ref, depth, down, filename,	
-	reorder from board b , tbl_member m
+	reorder 
+	
+	from board b , tbl_member m , (SELECT count(*) FROM board_comment where board_idx =b.idx ) 
+	
 	where b.userid =m.userid
 	order by b.idx desc; 
 
 
+--댓글 테이블
+--comment_idx 댓글 번호
+--댓글 달 게시글 번호		
+
+create table board_comment (
+
+comment_idx int AUTO_INCREMENT  primary key ,
+board_idx int not null,
+userid varchar(50) not null,
+content text not null,
+post_date Timestamp default now()
+);
+	
+	
+	
+	

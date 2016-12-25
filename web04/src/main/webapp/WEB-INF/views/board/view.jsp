@@ -11,8 +11,9 @@
 
 <%@ include file="../include/menu.jsp"  %>
 
-
-<%@ include file="../include/sessionCheck.jsp"  %>
+<%-- 
+<%@ include file="../include/sessionCheck.jsp"  %> 
+--%>
 
 <!--   ckeditor 연결  -->
 <script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
@@ -115,16 +116,7 @@ ${view.content }
 
 
 
-	
-	<td></td>
 
-	<td>${row.hit}</td>
-
-	<td style="text-align: center;">
-
-	</td>
-	
-	
 
 
 
@@ -136,7 +128,8 @@ ${view.content }
 <tfoot>
 <tr>
 <td colspan="2" style="text-align: center;">
-	<input type="submit" value="확인" class="btn btn-info"/>
+
+<a href="/board/listPage" class="btn btn-inf">목록 보기</a>
 </td>
 </tr>
 
@@ -150,6 +143,42 @@ ${view.content }
 
 
 
+<hr>
+<h3>댓글 등록 <c:if test="${loginUser.username !=null}" ><small style="float:right;"> 로그인 유저 : ${loginUser.username }</small></c:if></h3>
+
+
+<c:if test="${loginUser.username !=null }" >
+<div>
+<table class="table">
+<tr>
+	<td >
+	<textarea class="input-xxlarge" name="commnet_content" rows="5" cols="200" id="comment_content"></textarea>
+	</td>
+</tr>
+
+<tr>
+	<td >
+		<input type="button" value="댓글 달기" class="form-controll" id="btnSave">
+	</td>
+</tr>
+</table>
+</div>
+
+</c:if>
+
+
+
+
+<hr>
+
+<h3>댓글 목록</h3>
+
+<div id="LplyUL" style="margin-bottom: 20px;">
+
+
+</div>
+
+
 
 </div>
 </div>
@@ -157,6 +186,144 @@ ${view.content }
 
 
 
+
+
+
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+	
+	comment_list(762);
+	
+	
+	$("#btnSave").click(function(){
+		
+		var comment_content =$("#comment_content").val();
+		var board_idx ="${view.idx}";
+		var userid="${loginUser.userid}";
+		//alert(comment_content);
+		$.ajax({		
+			url : "/board/comment_insert.do",
+			type:"post",
+		/* 	headers:{
+				"Content-Type" :"application/json",
+				"X-HTTP-Method-Override" :"POST"
+			},
+			dataType:"text", 
+			
+				또는 => contentType:"application/json", 한줄 코딩
+			*/
+			contentType:"application/json",
+			
+			data:JSON.stringify({
+				board_idx :board_idx,
+				userid : userid,
+				content :comment_content
+				
+			}),
+			
+			success:function(result){
+				
+				if(result=="SUCCESS"){
+					
+					$("#comment_content").val("");
+					comment_list(board_idx);
+				}else{
+					alert("등록에 실패 하였습니다.");
+				}
+			}
+			
+		});	
+		
+	});
+	
+});
+
+
+
+
+function comment_list(board_idx){
+	
+/* 	$.getJSON("/board/comment_list.do/"+board_idx, function(data){
+		
+		printData(result, $("#LplyUL"), $("#template"));
+		
+	});	
+	
+	또는
+	
+	
+	 */
+	
+	
+	$.ajax({		
+		url : "/board/comment_list.do/"+board_idx,
+		type:"GET",
+		contentType:"application/json",	
+		success:function(result){
+			
+			printData(result, $("#LplyUL"), $("#template"));
+			
+		}
+	});	
+
+	
+	
+}
+
+var printData =function (replyArr, targetDiv, handleBarTemplateName){
+	
+	var template =Handlebars.compile(handleBarTemplateName.html());
+	
+	var html =template(replyArr);
+	targetDiv.html(html);
+}
+
+
+
+/* $.getJSON("/board/comment_list.do/"+board_idx+, function(data){
+	
+	$(data).each(
+		function(){
+			str +="<tr><td>"
+			str +=""+this.content;
+			str +=this.post_data;
+			str +="</td><tr>"
+	});
+	
+	$("#LplyUL").html();
+	
+});
+ */
+
+</script>
+
+
+
+<script id="template"  type="text/x-handlebars-template">
+{{#each .}}
+
+<div class="row thumb-pad" style="color: white;  border: 1px solid white; margin: 5px 0 5px 0; padding:3px;" >
+				
+		<div class="span4" style="margin-bottom: 5px; margin-top:5px;"> 
+		<small class="label label-danger">{{comment_idx}}</small>
+			{{userid}}  
+		
+		</div>
+		<div class="span8" style="margin-bottom: 5px;"> 
+		<small class="label label-danger" style="float:right;">{{post_date}}</small>
+		</div>
+		<div class="span8" style="margin-bottom: 2px;">
+					<p>{{content}}</p>
+					
+			 <a href="#" class="btn btn-success tm_style_4" style="margin-bottom: 2px;">Read More</a>
+		</div>
+</div>
+
+
+{{/each}}
+</script>
 
 
 <%@  include file="../include/footer.jsp" %>

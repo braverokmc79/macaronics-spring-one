@@ -22,6 +22,7 @@ public class BoardDTO {
 	private int ref; 
 	private int depth ;
 	private int reorder;
+	private int comment_count;
 	
 	private MultipartFile file1;
 	

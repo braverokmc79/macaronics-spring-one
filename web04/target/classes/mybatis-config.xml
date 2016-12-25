@@ -10,7 +10,7 @@
 		<package name="com.example.wbe04.model.member.dto"/>
 		<package name="com.example.wbe04.model.shop.dto"/>
 		<package name="com.example.wbe04.model.memo.dto"/>
-		<package name="com.example.wbe04.model.board.dto" />		
+		<package name="com.example.wbe04.model.board.dto" />	
 	</typeAliases> 
 
 </configuration>

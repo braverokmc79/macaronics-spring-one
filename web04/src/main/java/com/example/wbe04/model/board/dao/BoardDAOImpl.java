@@ -107,6 +107,16 @@ public class BoardDAOImpl implements BoardDAO {
 		return sqlSession.selectOne(namespace+".boardView", idx);
 	}
 
+
+
+	@Override
+	public void updateHit(int idx) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.update(namespace +".updateHit", idx);
+	}
+
+
+
 	
 	
 	

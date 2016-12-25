@@ -61,6 +61,14 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public BoardDTO boardView(int idx) {
 		// TODO Auto-generated method stub
+		try{
+			//조회수 증가
+			boardDAO.updateHit(idx);
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+			
 		return boardDAO.boardView(idx);
 	}
 

@@ -15,7 +15,7 @@
 	<link rel="stylesheet" href="/resources/template/css/bootstrap.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="/resources/template/css/responsive.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="/resources/template/css/style.css" type="text/css" media="screen">
-	
+	<link rel="stylesheet" href="/resources/template/css/tm_docs.css" type="text/css" media="screen">
 	
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
 	<script type="text/javascript" src="/resources/template/js/jquery.js"></script>
