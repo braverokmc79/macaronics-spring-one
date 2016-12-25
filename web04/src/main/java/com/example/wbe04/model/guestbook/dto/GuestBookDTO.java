@@ -20,17 +20,7 @@ public class GuestBookDTO {
 	 private String passwdCk;
 	 
 	 
-	public void setName(String name) {  
-		 this.name = FormTagReplace.chagne(name);
-	}
-	 
-	public void setEmail(String email) {
-		this.email = FormTagReplace.chagne(email);
-	}
 	
-	public void setContent(String content) {
-		this.content = FormTagReplace.chagne(content);
-	}
 	
 	
 	

@@ -43,9 +43,9 @@
             
                   <section> <a href="#" class="link-1">${list.name } </a>
             
-               <div class="form-group">
-							<label for="exampleInputPassword1">Content</label>
-				<textarea class="form-control" name="content" rows="3">${list.content }</textarea>
+				<div class="form-group">
+							<label for="exampleInputPassword1">내용</label>
+							<textarea >${list.content }</textarea>
 				</div>
                 
                 <p>${list.email } </p>

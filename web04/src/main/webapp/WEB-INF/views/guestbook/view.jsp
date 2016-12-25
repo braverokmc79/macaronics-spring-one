@@ -45,7 +45,7 @@
 				</div>
 				<div class="form-group">
 							<label for="exampleInputPassword1">내용</label>
-							<textarea class="form-control" name="content" rows="3" >${list.content }</textarea>
+							${list.content }
 				</div>
 			
 				

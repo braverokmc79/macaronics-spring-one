@@ -45,9 +45,6 @@ public class GuestBookController {
 
 	
 	
-	
-	
-	
 	@RequestMapping(value="/guestbook/write", method=RequestMethod.GET)
 	public void write(){
 		
