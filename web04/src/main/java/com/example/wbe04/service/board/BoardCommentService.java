@@ -12,4 +12,7 @@ public interface BoardCommentService {
 	public void comment_insert(BoardCommentDTO commentDTO);
 	public int commentCount(int board_idx);
 	
+	
+	
+	
 }

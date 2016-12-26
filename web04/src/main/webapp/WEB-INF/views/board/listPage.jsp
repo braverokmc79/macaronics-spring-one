@@ -50,7 +50,7 @@
 <th><code>조회수</code> </th>
 <th><code>첨부파일</code> </th>
 <th><code>다운로드</code> </th>
-<th><code>게시물 그룹 (ref)</code> </th>
+
 <th><code>답변 단계(depth)</code> </th>
 <th><code>그룹 내에서의 순서 (reorder)</code> </th>
 </tr>
@@ -65,7 +65,12 @@
 	
 	<td>${row.username}</td>
 	
-	<td class="control2"><a href="/board/view.do?idx=${row.idx }">${row.subject}
+	<td class="control2">
+	<c:forEach begin="1" end="${row.depth }">
+	 &nbsp;&nbsp;
+	</c:forEach>
+	
+	<a href="/board/view.do?idx=${row.idx }">${row.subject}
 	 <c:if test="${ row.comment_count > 0}" ><small style="color:blue;">[ ${row.comment_count } ]</small></c:if>
 	</a></td>
 	
@@ -79,7 +84,7 @@
 	</c:if>
 	
 	</td>
-	<td>${row.hit}</td>
+
 
 
 	<td>${row.down}</td>

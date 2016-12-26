@@ -62,7 +62,12 @@ public class BoardCommentDAOImpl implements BoardCommentDAO {
 	public int commentCount(int board_idx) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne(namespace+".commentCount",board_idx );
-	}	
+	}
+
+
+
+	
+	
 	
 }
 

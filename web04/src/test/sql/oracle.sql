@@ -260,18 +260,20 @@ end;
 
 commit;
 
-
-select idx, userid, username, subject, hit, post_date, rn
+------------------------------------------
+select *
  
 from
  	(
 	select A.*, rownum as rn
 	 from
 	(
-		select b.IDX , b.USERID, m.username, b.SUBJECT, b.HIT, b.POST_DATE   from board b, tbl_member m
+		select b.IDX , b.USERID, m.username, b.SUBJECT, b.HIT, b.POST_DATE  
+				b.ref, b.depth, d.reorder, filename, filesize, down
+		from board b, tbl_member m
 		
 		where  b.userid =m.userid
-		order by idx desc
+		order by ref desc, reorder asc
 	) A
 
 )

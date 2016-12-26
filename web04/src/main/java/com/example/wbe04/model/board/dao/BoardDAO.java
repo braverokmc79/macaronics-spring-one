@@ -32,6 +32,18 @@ public interface BoardDAO {
 	public void updateHit(int idx) throws Exception;
 	
 	
+	//게시물 그룹 순서 조정 (답변) 순서번호가 들어가면 그이하 번호는 +1씩 증가
+	public void reorderUpdate(int ref, int reorder);
+	
+	public void replyInsert(BoardDTO dto);
+	
+	//mysql ref 값 넣기
+	
+	public int lastInsertIdx();
+
+	public void refUpdate(int ref);
+	
+	
 }
 
 

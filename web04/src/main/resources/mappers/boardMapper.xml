@@ -9,12 +9,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 <!-- 	        MYSQL -->
 
-<select id="listPage" resultType="BoardDTO">
-		select * from board where idx > 0 order by idx desc limit #{page} , 10
+<!-- <select id="listPage" resultType="BoardDTO">
+		select * from board where idx > 0 order by ref desc, reorder asc limit #{page} , 10
 </select>
+
+ -->
+ 
+ 
 <select id="listCritera" resultType="BoardDTO">
-		select * from board_v where idx > 0 order by idx desc limit #{pageStart} , #{perPageNum}
+		select * from board_v  order by  ref desc, reorder asc  limit #{pageStart} , #{perPageNum}
 </select>
+
+<!--  현재 삽입한 idx 번호값 가져오기 -->
+<select id="lastInsertIdx" resultType="int">
+ select idx from board where idx=Last_insert_id()
+</select>
+
+<!--  ref 업데이트 하기 -->
+<update id="refUpdate">
+ update board set ref=#{idx} where idx=#{idx}
+</update>
+
 
 	
 	
@@ -23,6 +38,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  INSERT INTO board( userid ,subject ,content ,fileName ,filesize ) 
 		VALUES (#{userid} ,#{subject} ,#{content} , #{fileName} , #{filesize} ) 
 	</insert>
+	
+
+	
 	
 	<update id="downCont">
 		update board set down =down+1  where idx = #{idx};
@@ -43,6 +61,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	update board set hit=hit+1 where idx=#{idx};
 	 
 	</update>
+
+
+   <!--  같은 그룹내에서 순서 조정 ref (답변글) 현재 reorder 번호보다 큰것들은 1씩 증가-->
+	<update id="reorderUpdate">
+		update board set reorder =reorder +1
+		where ref =#{ref} and reorder > #{reorder}
+	</update>
+
+	
+	<insert id="replyInsert">
+	 INSERT INTO board( userid ,subject ,content , ref, depth, reorder ) 
+		VALUES (#{userid} ,#{subject} ,#{content} , #{ref}, #{depth}, #{reorder}) 
+		
+	</insert>
+	
 
 <!-- 
 	<select id="boardList" resultType="BoardDTO">

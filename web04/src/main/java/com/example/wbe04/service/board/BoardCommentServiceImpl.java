@@ -37,12 +37,15 @@ public class BoardCommentServiceImpl implements BoardCommentService {
 	}
 
 
-
 	@Override
 	public int commentCount(int board_idx) {
 		
 		return comentDAO.commentCount(board_idx);
 	}
+
+
+
+
 
 	
 	

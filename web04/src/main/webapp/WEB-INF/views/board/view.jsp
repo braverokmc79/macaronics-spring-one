@@ -41,7 +41,7 @@
 
 
 
-<form name="from1" role="form1" method="post" enctype="multipart/form-data" action="/board/write.do">
+<form name="form1" role="form1" method="post" enctype="multipart/form-data" >
 <div class="table-responsive">
 
 <input type="text" name="userid" value="${loginUser.userid }" />
@@ -123,17 +123,6 @@ ${view.content }
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 </tbody>
 
 
@@ -142,12 +131,20 @@ ${view.content }
 <td colspan="2" style="text-align: center;">
 
 <a href="/board/listPage" class="btn btn-inf">목록 보기</a>
+<c:if test="${ loginUser.userid != null}">
+<input type="hidden" value="${view.idx}" name="idx" />
+<button type="button" id="btnReply" class="btn btn-info">답변 달기</button>
+</c:if>
 </td>
 </tr>
 
 </tfoot>
 
 </table>
+
+
+
+
 </div>
 		
 </form>
@@ -223,7 +220,14 @@ $(document).ready(function(){
 		$.ajax({		
 			url : "/board/comment_insert.do",
 			type:"post",
-	
+		/* 	headers:{
+				"Content-Type" :"application/json",
+				"X-HTTP-Method-Override" :"POST"
+			},
+			dataType:"text", 
+			
+				또는 => contentType:"application/json", 한줄 코딩
+			*/
 			contentType:"application/json",
 			
 			data:JSON.stringify({
@@ -331,6 +335,29 @@ var pagination =function(pageMaker){
  
  
 </script>
+
+
+
+<!-- 답변  -->
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+	
+	
+	$("#btnReply").click(function(){
+		document.form1.action="/board/board_reply.do";
+		
+		document.form1.submit();
+	});
+	
+	
+});
+
+
+
+</script>
+
 
 
 

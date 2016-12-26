@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.wbe04.model.board.dao.BoardDAO;
 import com.example.wbe04.model.board.dto.BoardDTO;
@@ -29,11 +30,22 @@ public class BoardServiceImpl implements BoardService {
 		return boardDAO.boardList(start,  end);
 	}
 
-
+	@Transactional
 	@Override
 	public void boardInsert(BoardDTO dto) {
 		// TODO Auto-generated method stub
-		boardDAO.boardInsert(dto);
+		try {	
+			boardDAO.boardInsert(dto);
+			//현재 삽입한 idx 번호 가져오기
+			int idx=boardDAO.lastInsertIdx();
+			//ref 를 업데이트 하기
+			logger.info(" idx ***************************" + idx);
+			boardDAO.refUpdate(idx);
+			
+		} catch (Exception e) {
+			
+			return ;
+		}
 	}
 
 
@@ -72,6 +84,21 @@ public class BoardServiceImpl implements BoardService {
 		return boardDAO.boardView(idx);
 	}
 
+	
+	
+	//답변 달린 게시글 그룹 순서 정렬 하기
+	@Override
+	public void reorderUpdate(int ref, int reorder) {
+		
+		boardDAO.reorderUpdate(ref, reorder);
+	}
+
+
+	@Override
+	public void replyInsert(BoardDTO dto) {
+		
+		boardDAO.replyInsert(dto);
+	}
 	
 	
 	

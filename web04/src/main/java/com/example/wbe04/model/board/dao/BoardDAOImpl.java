@@ -118,7 +118,52 @@ public class BoardDAOImpl implements BoardDAO {
 
 
 	
-	
+	@Override
+	public void reorderUpdate(int ref, int reorder) {	
+		try{
+			
+			Map<String, Object> map =new HashMap<>();
+			map.put("ref", ref); //게시물 그룹 번호
+			map.put("reorder", reorder); //같은 게시물 내에서의 순서
+			sqlSession.update(namespace+".reorderUpdate", map);
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+
+
+
+	@Override
+	public void replyInsert(BoardDTO dto) {
+		// TODO Auto-generated method stub
+		try{
+			sqlSession.insert(namespace +".replyInsert", dto);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+	}
+
+
+
+
+
+
+	//마지막에 등록한 게시글 번호 가져오기
+	@Override
+	public int lastInsertIdx() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(namespace+".lastInsertIdx");
+	}
+
+
+	//ref  업데이트 하기
+	@Override
+	public void refUpdate(int idx) {
+		// TODO Auto-generated method stub
+		sqlSession.insert(namespace+".refUpdate" , idx);
+	}	
 	
 	
 	

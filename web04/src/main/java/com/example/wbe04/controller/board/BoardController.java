@@ -11,20 +11,18 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.wbe04.model.board.dto.BoardDTO;
+import com.example.wbe04.model.member.dto.MemberDTO;
 import com.example.wbe04.page.PageDAO;
 import com.example.wbe04.service.board.BoardService;
 import com.example.wbe04.util.MediaUtils;
@@ -228,8 +226,67 @@ public class BoardController {
 	
 	
 	
+	//답변 페이지로 이동 
 	
+	@RequestMapping(value="/board_reply.do", method=RequestMethod.POST)
+	public String borad_reply(@RequestParam Integer idx, Model model){
+		
+		BoardDTO dto =boardService.boardView(idx);
+		String content ="<h3 style='color:red; font-style:blod;'>================게시물 내용 =================</h3>\n";
+		
+		
+		dto.setContent(content+dto.getContent());
+		
+		model.addAttribute("dto", dto);
+		
+		return "board/board_reply";
+	}
 
+	
+	
+	
+	//답변 달기
+	
+	@RequestMapping(value="/reply_insert.do", method=RequestMethod.POST)
+	public String reply_insert(@RequestParam  Integer idx, @RequestParam String subject,
+			  @RequestParam String content1,  @RequestParam String content2,
+			HttpSession session){
+		
+		BoardDTO dto =boardService.boardView(idx);
+		
+		logger.info("뷰에서 넘겨 온 값 :" + dto.toString());
+		
+		
+		
+		//******************* 첫번째 reorder 증가처리 ********************* 
+		int ref =dto.getRef();
+		int depth=dto.getDepth() +1; //답변 단계
+		int reorder =dto.getReorder() +1; //같은 그룹내에서 순서
+		
+		
+		
+		// DB에서 다시 ******************* 두번째 reorder  증가처리 *********************
+		//게시물 내에서의 순서 조정 
+		//(답변글) 현재 reorder 번호보다 큰것들은 1씩 증가로 셋팅 한다.
+		boardService.reorderUpdate(ref, reorder);
+		logger.info("리오더 1씩 증가 완료 :");
+		
+		
+		//답변 게시글 테이블에 저장
+		MemberDTO loginUser=(MemberDTO) session.getAttribute("loginUser"); 
+		dto =new BoardDTO();
+		dto.setRef(ref);
+		dto.setUserid(loginUser.getUserid()); //댓글 등록할 userid
+		dto.setUsername(loginUser.getUsername());//댓글 등록할 username
+		
+		dto.setSubject(subject); // 파라미터로 넘겨온 subject
+		dto.setContent(content1 +content2); //원본 게시글  + 답변 게시글	
+		dto.setDepth(depth);
+		dto.setReorder(reorder);
+		boardService.replyInsert(dto);
+		return "redirect:listPage";
+	}
+	
 	
 	
 	

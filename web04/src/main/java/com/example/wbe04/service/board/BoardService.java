@@ -21,4 +21,10 @@ public interface BoardService {
 	public BoardDTO boardView(int idx);
 	
 	
+	public void reorderUpdate(int ref, int reorder);
+
+	public void replyInsert(BoardDTO dto);
+	
+	
+	
 }

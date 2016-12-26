@@ -11,4 +11,6 @@ public interface BoardCommentDAO {
 	public void comment_insert(BoardCommentDTO commentDTO);
 	public int commentCount(int board_idx);
 	
+	
+
 }
