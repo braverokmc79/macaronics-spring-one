@@ -280,3 +280,27 @@ from
 
 select * from board_v;
 
+
+----- 댓글 페이지 나누기  쿼리
+
+
+
+select * 
+ from ( select A.*, rownum as rn
+	from
+	 (
+	   select
+		comment_idx, board_idx, userid, name, content, post_date
+	   from board_comment b, member m
+	   where b.userid=m.id and board_idx=572
+         ) A
+)
+where rn between 1 and 10;
+
+
+
+
+
+
+
+

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.wbe04.model.board.dao.BoardCommentDAO;
 import com.example.wbe04.model.board.dto.BoardCommentDTO;
+import com.example.wbe04.util.mysql.PageMaker;
 
 @Service
 public class BoardCommentServiceImpl implements BoardCommentService {
@@ -22,9 +23,9 @@ public class BoardCommentServiceImpl implements BoardCommentService {
 	
 	
 	@Override
-	public List<BoardCommentDTO> commentList(int board_idx) {
+	public List<BoardCommentDTO> commentList(int board_idx, PageMaker page) {
 		// TODO Auto-generated method stub
-		return comentDAO.commentList(board_idx);
+		return comentDAO.commentList(board_idx,  page);
 	}
 
 	
@@ -33,6 +34,14 @@ public class BoardCommentServiceImpl implements BoardCommentService {
 	public void comment_insert(BoardCommentDTO commentDTO) {
 		// TODO Auto-generated method stub
 		comentDAO.comment_insert(commentDTO);
+	}
+
+
+
+	@Override
+	public int commentCount(int board_idx) {
+		
+		return comentDAO.commentCount(board_idx);
 	}
 
 	

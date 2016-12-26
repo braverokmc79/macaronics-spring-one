@@ -1,6 +1,8 @@
 package com.example.wbe04.model.board.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -10,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.example.wbe04.model.board.dto.BoardCommentDTO;
+import com.example.wbe04.util.mysql.PageMaker;
 
 @Repository
 public class BoardCommentDAOImpl implements BoardCommentDAO {
@@ -26,11 +29,15 @@ public class BoardCommentDAOImpl implements BoardCommentDAO {
 	
 	
 	@Override
-	public List<BoardCommentDTO> commentList(int board_idx) {
+	public List<BoardCommentDTO> commentList(int board_idx,  PageMaker page) {
 		List<BoardCommentDTO> list=null;
 		try{
+			Map<String, Object> map =new HashMap<>();
+			map.put("pageStart", page.getCri().getPageStart());
+			map.put("perPageNum", page.getCri().getPerPageNum());
+			map.put("board_idx", board_idx);
 			
-			list=sqlSession.selectList(namespace+".commentList", board_idx);
+			list=sqlSession.selectList(namespace+".commentList", map);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -48,6 +55,16 @@ public class BoardCommentDAOImpl implements BoardCommentDAO {
 			e.printStackTrace();
 		}
 		
+	}
+
+
+	@Override
+	public int commentCount(int board_idx) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(namespace+".commentCount",board_idx );
 	}	
 	
 }
+
+
+

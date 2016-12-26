@@ -434,9 +434,9 @@ select idx, username, subject, post_date, hit, ref, depth,
 	
 create or replace view board_v as 
 select idx, username, subject, content, post_date, hit, ref, depth, down, filename,	
-	reorder 
+	reorder , (SELECT count(*) FROM board_comment where board_idx =b.idx ) comment_count
 	
-	from board b , tbl_member m , (SELECT count(*) FROM board_comment where board_idx =b.idx ) 
+	from board b , tbl_member m ,  board_comment
 	
 	where b.userid =m.userid
 	order by b.idx desc; 

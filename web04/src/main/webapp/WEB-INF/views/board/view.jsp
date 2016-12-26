@@ -11,6 +11,18 @@
 
 <%@ include file="../include/menu.jsp"  %>
 
+<style type="text/css">
+	.pagination > ul >li a:hover{
+	   background-color: #E85356;
+	}
+	.pagination > ul > .active{
+		color:blue;
+		text-decoration: none;
+		
+	}	
+</style>
+
+
 <%-- 
 <%@ include file="../include/sessionCheck.jsp"  %> 
 --%>
@@ -176,14 +188,19 @@ ${view.content }
 <div id="LplyUL" style="margin-bottom: 20px;">
 
 
+
+
+
+
 </div>
 
 
+   <div class="pagination">
 
+  </div>
 </div>
 </div>
-
-
+/board/comment_list.do?board_idx=
 
 
 
@@ -193,9 +210,9 @@ ${view.content }
 <script type="text/javascript">
 
 $(document).ready(function(){
-	
-	comment_list(762);
-	
+	var idx ="${param.idx}";
+	var curpage=1;
+	comment_list(idx, curpage)
 	
 	$("#btnSave").click(function(){
 		
@@ -206,14 +223,7 @@ $(document).ready(function(){
 		$.ajax({		
 			url : "/board/comment_insert.do",
 			type:"post",
-		/* 	headers:{
-				"Content-Type" :"application/json",
-				"X-HTTP-Method-Override" :"POST"
-			},
-			dataType:"text", 
-			
-				또는 => contentType:"application/json", 한줄 코딩
-			*/
+	
 			contentType:"application/json",
 			
 			data:JSON.stringify({
@@ -228,7 +238,11 @@ $(document).ready(function(){
 				if(result=="SUCCESS"){
 					
 					$("#comment_content").val("");
-					comment_list(board_idx);
+					
+					comment_list(board_idx, curpage);
+					
+					
+					
 				}else{
 					alert("등록에 실패 하였습니다.");
 				}
@@ -238,39 +252,33 @@ $(document).ready(function(){
 		
 	});
 	
+	$(".pagination").on("click", "ul > li a", function(event){
+			event.preventDefault();
+			
+			page =$(this).attr("href");
+			comment_list(idx, page.trim());
+			//alert("클릭");
+	});
+	
+	
+	
 });
 
 
 
 
-function comment_list(board_idx){
+function comment_list(board_idx, curpage){
 	
-/* 	$.getJSON("/board/comment_list.do/"+board_idx, function(data){
+ 	$.getJSON("/board/comment_list.do?board_idx="+board_idx + "&curpage="+curpage, function(data){
 		
-		printData(result, $("#LplyUL"), $("#template"));
+		printData(data.commentList, $("#LplyUL"), $("#template"));
+		pagination(data.pageMaker);
 		
 	});	
-	
-	또는
-	
-	
-	 */
-	
-	
-	$.ajax({		
-		url : "/board/comment_list.do/"+board_idx,
-		type:"GET",
-		contentType:"application/json",	
-		success:function(result){
-			
-			printData(result, $("#LplyUL"), $("#template"));
-			
-		}
-	});	
-
-	
 	
 }
+
+
 
 var printData =function (replyArr, targetDiv, handleBarTemplateName){
 	
@@ -282,21 +290,46 @@ var printData =function (replyArr, targetDiv, handleBarTemplateName){
 
 
 
-/* $.getJSON("/board/comment_list.do/"+board_idx+, function(data){
-	
-	$(data).each(
-		function(){
-			str +="<tr><td>"
-			str +=""+this.content;
-			str +=this.post_data;
-			str +="</td><tr>"
-	});
-	
-	$("#LplyUL").html();
-	
-});
- */
+ 
+ 
+var pagination =function(pageMaker){
 
+	 var idx ="${param.idx}";
+	 
+	 var str3 = "<ul>";
+	 
+	 if(pageMaker.cri.page >1){
+		str3 += '<li><a href="1">[시작]</a></li>';
+	 }
+	 
+	 if(pageMaker.prev){
+		 str3 +="<li><a href='"+( pageMaker.startPage-1) +"' >&laquo;</a></li>";
+	 }
+	 
+	 for(var i=pageMaker.startPage, len=pageMaker.endPage ; i <=len ; i++){
+		 var strClass=pageMaker.cri.page ==i ? 'class="active"  style="background-color: #E85356;"' : '';
+		 //str3 +="<li " +strClass + " > <a href='javascript:" +comment_list(idx, i)+";' >"+i+"</a></li>";
+	 	str3 +="<li "+strClass+"><a href='"+i+"' >" +i +" </a></li>"
+	 }
+	 
+	 
+	 if(pageMaker.next){
+		 str3 +="<li ><a href='"+( pageMaker.endPage +1)+ "' > &raquo;</a></li>";
+	 }
+	 
+	 
+	 if(pageMaker.cri.page < pageMaker.tempEndPage){
+		 str3 +="<li><a href='"+pageMaker.tempEndPage+"'>[끝]</a></li>";
+	 }
+		 
+	 
+	str3 += "</ul>";
+	 $(".pagination").html(str3);
+	 
+
+}
+ 
+ 
 </script>
 
 
@@ -324,6 +357,12 @@ var printData =function (replyArr, targetDiv, handleBarTemplateName){
 
 {{/each}}
 </script>
+
+
+
+
+
+
 
 
 <%@  include file="../include/footer.jsp" %>

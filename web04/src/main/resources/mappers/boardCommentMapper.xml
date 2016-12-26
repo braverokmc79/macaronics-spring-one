@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="boardComment.Mapper">
 	
 	<select id="commentList" resultType="BoardCommentDTO">
-		select * from board_comment where board_idx =#{board_idx} order by post_date desc
+		select * from board_comment where board_idx =#{board_idx} order by post_date desc limit #{pageStart}, #{perPageNum}
 	</select>
 
 	<insert id="comment_insert">
@@ -16,6 +16,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			value(#{board_idx}, #{userid}, #{content})
 	</insert>
 
+	<select id="commentCount" resultType="int">
+	 select comment_count from board_v where idx =#{board_idx}
+	
+	</select>
 	
 </mapper>
 
