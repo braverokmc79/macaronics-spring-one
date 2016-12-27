@@ -111,6 +111,13 @@ public class BoardServiceImpl implements BoardService {
 		// TODO Auto-generated method stub
 		return boardDAO.replyExist(ref, reorder);
 	}
+
+	@Override
+	public void boardUpdate(BoardDTO dto) {
+		// TODO Auto-generated method stub
+		
+		boardDAO.boardUpdate(dto);
+	}
 	
 	
 	

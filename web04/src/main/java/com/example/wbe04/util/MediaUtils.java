@@ -30,14 +30,14 @@ public class MediaUtils {
 	public static boolean imageMatch(String image){
 		
 		boolean result =false;
-		
-		if(image.equals("JPG")){
+		String img= image.toUpperCase();
+		if(img.equals("JPG")){
 			result=true;
-		}else if(image.equals("JPEG")){
+		}else if(img.equals("JPEG")){
 			result=true;
-		}else if(image.equals("GIF")){
+		}else if(img.equals("GIF")){
 			result=true;
-		}else if(image.equals("PNG")){
+		}else if(img.equals("PNG")){
 			result=true;
 		}
 		return result;

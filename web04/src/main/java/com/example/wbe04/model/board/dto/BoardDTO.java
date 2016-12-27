@@ -24,6 +24,11 @@ public class BoardDTO {
 	private int reorder;
 	private int comment_count;
 	
+	private String fileCheck;
+	private String oldFileName;
+	private long oldFileSize;
+	
+	
 	private MultipartFile file1;
 	
 

@@ -31,6 +31,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </update>
 
 
+<!--  업데이트 하기 -->
+<update id="boardUpdate">
+ update board set subject =#{subject}, content =#{content} , fileName=#{fileName}, filesize=#{filesize} 
+  where idx =#{idx}
+</update>
 	
 	
 	<insert id="boardInsert">

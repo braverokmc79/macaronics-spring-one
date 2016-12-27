@@ -113,10 +113,12 @@ ${view.content }
 <td>
 
 	<c:if test="${ not empty view.fileName }">
+
+     ${ view.fileName.substring(view.fileName.lastIndexOf("-")+1) } (  ${view.filesize } bytes ) &nbsp;&nbsp;&nbsp;
 	<a href="/board/down.do?idx=${view.idx }&fileName=${view.fileName }"> <img src="/resources/template/img/file.png"/></a>
 	</c:if>
 	
-
+ 
 </td>
 </tr>
 
@@ -151,9 +153,6 @@ ${view.content }
 
 </table>
 
-
-
-
 </div>
 		
 </form>
@@ -185,16 +184,11 @@ ${view.content }
 </c:if>
 
 
-
-
 <hr>
 
 <h3>댓글 목록</h3>
 
 <div id="LplyUL" style="margin-bottom: 20px;">
-
-
-
 
 
 
@@ -387,7 +381,11 @@ $(document).ready(function(){
 	
 	
 	/* 수정 */
-	
+	$("#btnUpdate").click(function(){
+		
+		document.form1.action="/board/board_update_view.do";
+		document.form1.submit();
+	});
 	
 	
 	

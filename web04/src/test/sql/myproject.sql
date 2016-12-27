@@ -432,7 +432,7 @@ select idx, username, subject, post_date, hit, ref, depth,
 
 	
 create or replace view board_v as 
-select idx, m.userid, username, b.subject, b.content, b.post_date, b.hit, b.ref, b.depth, b.down, b.filename,	
+select idx, m.userid, username, b.filesize, b.subject, b.content, b.post_date, b.hit, b.ref, b.depth, b.down, b.filename,	
 	reorder , (SELECT count(*) FROM board_comment where board_idx =b.idx ) comment_count
 	
 	from board b , tbl_member m   

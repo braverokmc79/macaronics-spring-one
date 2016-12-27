@@ -312,12 +312,178 @@ public class BoardController {
 	}
 	
 	
+	//게시물 수정 화면으로 이동
+	@RequestMapping(value="/board_update_view.do", method=RequestMethod.POST)
+	public String board_update_view(@RequestParam Integer idx, Model model){
+		
+		
+		model.addAttribute("view", boardService.boardView(idx));
+		return "/board/update_view";
+	}
+	
+	
+	
+/*
+
+1.업로드 파일이 없을 경우 
+
+ - 1-1 체크박스로 기존 업로드 파일을 삭제 할 경우
+   - 1-1-1 기존 게시물 그대로 사용할 경우
+   - 1-1-2 업로드 파일도 없고 체크박스도 없고  기존 게시물이 없을 경우  
+2. 업로드 파일 있을 경우 체크박스 상관없이 그리고 기존 파일 상관 없이 무조건 업로드
+
+*/	
+	//게시물 수정하기
+	@RequestMapping(value="/board_update.do", method=RequestMethod.POST)
+	public String board_update(@ModelAttribute BoardDTO dto,   HttpServletRequest request, Model model){	
+		logger.info("//게시물 수정하기");
+		//입력 값이 없을 경우
+		if(dto.getSubject().trim().length() ==0){
+			logger.info("입력 값이 없을 경우");
+			
+			model.addAttribute("view", boardService.boardView(dto.getIdx()));
+			return "/board/update_view";
+		}else{
+			
+			//입력 값이 있을 경우
+			logger.info("입력 값이 있을 경우" +dto.toString());
+			String fileName ="";
+			long fileSize=0;
+			MultipartFile file1 =dto.getFile1();
+			
+			UploadPath.attach_path="WEB-INF/uploads";
+			String uploadDir =UploadPath.path(request);
+
+			
+			if(file1.isEmpty() ){
+				logger.info("1.업로드 파일이 없을 경우");
+				
+				if(dto.getFileCheck()!= null && dto.getFileCheck().equals("on") ){
+					logger.info("1-1 체크박스로 기존 업로드 파일을 삭제 할 경우");
+					
+			
+					//이미지 인지 확인 후 이미지 이면 원본 이미지도 삭제
+					int num =dto.getOldFileName().lastIndexOf(".") +1 ;
+					String imageConfirm =dto.getOldFileName().substring(num);
+					logger.info(imageConfirm);
+					if(MediaUtils.imageMatch(imageConfirm )){
+						//이미파일 이다. 따라서 원본 이미지도 삭제
+						//   /2016/12/27/s_55d9b836-ebaa-49f6-82b8-a2488ebe3740_page1-img5.jpg
+						String front =dto.getOldFileName().substring(1, 12);
+						String end=dto.getOldFileName().substring(14);
+						String originalImageName=front+ end;
+						logger.info("원본 이미지 : " +originalImageName );
+						File oldFile2 =new File(uploadDir+File.separator+originalImageName.replace('/', File.separatorChar));
+						if(oldFile2.exists()){
+							oldFile2.delete();
+						}	
+					}
+					
+
+					File oldFile =new File(uploadDir+dto.getOldFileName());
+					if(oldFile.exists()){
+						oldFile.delete();
+					}	
+					
+					dto.setFileName("");
+					dto.setFilesize(0);
+					boardService.boardUpdate(dto);
+					//list.do 로 이동
+					return "redirect:listPage";	
+				}else{
+						
+					if(dto.getOldFileName()!=null){
+						logger.info("- 1-1-1 기존 게시물 그대로 사용할 경우 체크박스 확인" + dto.getFileCheck());
+						logger.info("1. 기존의 파일을 이름 : " + dto.getOldFileName());
+						
+						dto.setFileName(dto.getOldFileName());
+						dto.setFilesize(dto.getOldFileSize());
+						boardService.boardUpdate(dto);
+							//list.do 로 이동
+						return "redirect:listPage";	
+						
+					}else{
+						logger.info("- 1-1-2 업로드 파일도 없고 체크박스도 없고  기존 게시물이 없을 경우  ");
+						
+						boardService.boardUpdate(dto);
+						return "redirect:listPage";		
+					}
+						
+				}	
+			}
+			
+			
+			if(!file1.isEmpty()){
+
+				logger.info("2. 업로드 파일이 존재 할 경우");
+				//기존 파일 있는지 여부 확인 후 기존파일 삭제
+				if(dto.getOldFileName()!=null){
+					logger.info(" 기존 파일 이름 :" + dto.getOldFileName());
+					
+					
+					//이미지 인지 확인 후 이미지 이면 원본 이미지도 삭제
+					int num =dto.getOldFileName().lastIndexOf(".") +1 ;
+					String imageConfirm =dto.getOldFileName().substring(num);
+					logger.info(imageConfirm);
+					if(MediaUtils.imageMatch(imageConfirm )){
+						//이미파일 이다. 따라서 원본 이미지도 삭제
+						//   /2016/12/27/s_55d9b836-ebaa-49f6-82b8-a2488ebe3740_page1-img5.jpg
+						String front =dto.getOldFileName().substring(1, 12);
+						String end=dto.getOldFileName().substring(14);
+						String originalImageName=front+ end;
+						logger.info("원본 이미지 : " +originalImageName );
+						File oldFile2 =new File(uploadDir+File.separator+originalImageName.replace('/', File.separatorChar));
+						if(oldFile2.exists()){
+							oldFile2.delete();
+						}	
+					}
+					
+					
+					File oldFile =new File(uploadDir+dto.getOldFileName());
+					if(oldFile.exists()){
+						oldFile.delete();
+					}	
+				}
+				
+				fileName=file1.getOriginalFilename();
+				fileSize=file1.getSize();
+				
+				try {
+					logger.info("업로드 ");
+					fileName=UploadFileUtils.uploadFile(uploadDir, fileName, file1.getBytes());
+					
+					dto.setFileName(fileName);
+					dto.setFilesize(fileSize);
+						
+					boardService.boardUpdate(dto);
+					
+				} catch (Exception e) {
+					// TODO: handle exception
+					e.getStackTrace();
+					logger.info("업로드 오류");
+				}
+				
+				//list.do 로 이동
+				return "redirect:listPage";	
+			}
+			
+
+			// 그밖의 경우 다시 수정 화면으로  이동
+			model.addAttribute("view", boardService.boardView(dto.getIdx()));
+			return "/board/update_view";		
+		}
+		
+	}
 	
 	
 
+
+	
 	
 	
 }
+
+
 
 
 

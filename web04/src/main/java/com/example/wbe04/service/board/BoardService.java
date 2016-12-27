@@ -28,6 +28,8 @@ public interface BoardService {
 	public void boardDelete(int idx);
 
 	public int replyExist(Integer ref, Integer reorder);
+
+	public void boardUpdate(BoardDTO dto);
 	
 	
 	

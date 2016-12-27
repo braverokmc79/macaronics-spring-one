@@ -146,10 +146,6 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 
-
-
-
-
 	//마지막에 등록한 게시글 번호 가져오기
 	@Override
 	public int lastInsertIdx() {
@@ -184,6 +180,14 @@ public class BoardDAOImpl implements BoardDAO {
 		map.put("reorder", reorder);
 		
 		return sqlSession.selectOne(namespace+".replyExist", map);
+	}
+
+
+
+	@Override
+	public void boardUpdate(BoardDTO dto) {
+		// TODO Auto-generated method stub
+		sqlSession.update(namespace+ ".boardUpdate", dto);
 	}	
 	
 	
