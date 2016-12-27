@@ -42,6 +42,10 @@ public interface BoardDAO {
 	public int lastInsertIdx();
 
 	public void refUpdate(int ref);
+
+	public void boardDelete(int idx);
+
+	public int replyExist(Integer ref, Integer reorder);
 	
 	
 }

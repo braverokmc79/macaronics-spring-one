@@ -99,6 +99,18 @@ public class BoardServiceImpl implements BoardService {
 		
 		boardDAO.replyInsert(dto);
 	}
+
+	@Override
+	public void boardDelete(int idx) {
+		
+		boardDAO.boardDelete(idx);
+	}
+
+	@Override
+	public int replyExist(Integer ref, Integer reorder) {
+		// TODO Auto-generated method stub
+		return boardDAO.replyExist(ref, reorder);
+	}
 	
 	
 	

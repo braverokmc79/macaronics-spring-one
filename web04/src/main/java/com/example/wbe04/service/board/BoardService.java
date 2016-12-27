@@ -24,6 +24,10 @@ public interface BoardService {
 	public void reorderUpdate(int ref, int reorder);
 
 	public void replyInsert(BoardDTO dto);
+
+	public void boardDelete(int idx);
+
+	public int replyExist(Integer ref, Integer reorder);
 	
 	
 	

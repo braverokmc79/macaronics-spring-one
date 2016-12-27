@@ -72,9 +72,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="replyInsert">
 	 INSERT INTO board( userid ,subject ,content , ref, depth, reorder ) 
-		VALUES (#{userid} ,#{subject} ,#{content} , #{ref}, #{depth}, #{reorder}) 
-		
+		VALUES (#{userid} ,#{subject} ,#{content} , #{ref}, #{depth}, #{reorder}) 	
 	</insert>
+	
+	
+	<select id="replyExist" resultType="int">
+		select count(*) from board where ref=#{ref} and reorder > #{reorder};
+	</select>
+	
+	<delete id="boardDelete" >
+		DELETE  FROM board WHERE idx=#{idx}
+	</delete>
 	
 
 <!-- 

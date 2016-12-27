@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.wbe04.model.board.dto.BoardDTO;
 import com.example.wbe04.model.member.dto.MemberDTO;
@@ -289,9 +290,38 @@ public class BoardController {
 	
 	
 	
+	//게시물 삭제 처리
+	@RequestMapping(value="/board_delete.do", method=RequestMethod.POST)
+	public String board_delete(@RequestParam int idx, @RequestParam Integer ref,  
+			@RequestParam Integer reorder, RedirectAttributes rttr){
+
+			//답변이 있는 게시물, 댓글이 있는 게시물에 대한 처리가 필요함
+			//만약 0이면 답변이 없다
+			//select count(*) from board where ref=3 and reorder >4;
+		   
+			if(boardService.replyExist(ref, reorder) == 0 ){
+				//답변이 없다. 게시물 삭제
+				boardService.boardDelete(idx);
+				//게시물 목록 이동
+				return "redirect:listPage";
+			}else{
+				
+				rttr.addFlashAttribute("replyMsg", "답변이 달린 게시글은 삭제 할 수 없습니다.");
+				return "redirect:view.do?idx="+idx;
+			}
+	}
+	
+	
+	
+	
+
 	
 	
 }
+
+
+
+
 
 
 

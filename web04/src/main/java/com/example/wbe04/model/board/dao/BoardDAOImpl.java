@@ -163,6 +163,27 @@ public class BoardDAOImpl implements BoardDAO {
 	public void refUpdate(int idx) {
 		// TODO Auto-generated method stub
 		sqlSession.insert(namespace+".refUpdate" , idx);
+	}
+
+
+
+	@Override
+	public void boardDelete(int idx) {
+		
+		sqlSession.delete(namespace+".boardDelete", idx);
+		
+	}
+
+
+
+	@Override
+	public int replyExist(Integer ref, Integer reorder) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map =new HashMap<>();
+		map.put("ref", ref);
+		map.put("reorder", reorder);
+		
+		return sqlSession.selectOne(namespace+".replyExist", map);
 	}	
 	
 	

@@ -44,8 +44,8 @@
 <form name="form1" role="form1" method="post" enctype="multipart/form-data" >
 <div class="table-responsive">
 
-<input type="text" name="userid" value="${loginUser.userid }" />
-<input type="text" name="username" value="${loginUser.username }" />
+현재 로그인 유저 아이디 : <input type="text" name="userid" value="${loginUser.userid }" />
+현재 로그인 한 유저 이름 :<input type="text" name="username" value="${loginUser.username }" />
 
 <table class="table table-bordered table-striped" style="background-color: white; margin: 10px 0 10px 0;">
 <colgroup>
@@ -120,9 +120,6 @@ ${view.content }
 </td>
 </tr>
 
-
-
-
 </tbody>
 
 
@@ -132,9 +129,21 @@ ${view.content }
 
 <a href="/board/listPage" class="btn btn-inf">목록 보기</a>
 <c:if test="${ loginUser.userid != null}">
-<input type="hidden" value="${view.idx}" name="idx" />
+
 <button type="button" id="btnReply" class="btn btn-info">답변 달기</button>
 </c:if>
+
+<input type="hidden" value="${view.idx}" name="idx" />
+<input type="text" value="${view.ref}" name="ref" />
+<input type="text" value="${view.reorder}" name="reorder" />
+
+<c:if test="${loginUser.userid ==view.userid }">
+
+<button class="btn btn-danger" type="button"  id="btnDelete">삭제</button>
+<button class="btn" type="button"  id="btnUpdate">수정</button>
+</c:if>
+
+
 </td>
 </tr>
 
@@ -197,7 +206,6 @@ ${view.content }
   </div>
 </div>
 </div>
-/board/comment_list.do?board_idx=
 
 
 
@@ -352,6 +360,37 @@ $(document).ready(function(){
 	});
 	
 	
+	
+	/* 삭제 */
+	$("#btnDelete").click(function(){
+		
+		//댓글이 있는지 확인
+		var  liplySize=$("#LplyUL").find(".thumb-pad").size();
+		
+		if(liplySize > 0){
+			alert("댓글이 달린 게시물은 삭제 할 수 없습니다.");	
+			return ;
+		}
+		
+		if(confirm("정말 삭제 하시겠습니까?")){
+			
+			document.form1.action="/board/board_delete.do";
+			document.form1.submit();
+		}
+	});
+	
+	
+   var replyMsg ="${replyMsg}";
+   if(replyMsg.length>3){
+	   alert(replyMsg);
+   }
+	
+	
+	/* 수정 */
+	
+	
+	
+	
 });
 
 
@@ -384,6 +423,11 @@ $(document).ready(function(){
 
 {{/each}}
 </script>
+
+
+
+
+
 
 
 
