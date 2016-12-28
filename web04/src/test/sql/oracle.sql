@@ -300,6 +300,10 @@ select *
 where rn between 1 and 10;
 
 
+select count(*) 
+ from board b, member m
+
+where b.userid =m.userid and name like '%김%';
 
 
 

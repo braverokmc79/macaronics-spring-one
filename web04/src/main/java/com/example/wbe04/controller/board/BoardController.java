@@ -31,6 +31,7 @@ import com.example.wbe04.util.UploadFileUtils;
 import com.example.wbe04.util.UploadPath;
 import com.example.wbe04.util.mysql.Criteria;
 import com.example.wbe04.util.mysql.PageMaker;
+import com.example.wbe04.util.mysql.SearchCriteria;
 
 @Controller
 @RequestMapping("/board")
@@ -42,7 +43,16 @@ public class BoardController {
 	private final Logger logger =LoggerFactory.getLogger(BoardController.class);
 	
 	@RequestMapping(value="/board_list.do", method=RequestMethod.GET)
-	public String board_list(@RequestParam(defaultValue="1") int curPage,  Model model){
+	public String board_list(@RequestParam(defaultValue="1") int curPage, 
+			@RequestParam(required=false, defaultValue="name")
+			   String search_option,
+			@RequestParam(required=false, defaultValue="")
+			   String search,
+			Model model){
+		
+		//@RequestParam 지정된 변수값이 넘어오지 않으면 400에러
+		//required=false 필수 항목이 아님, 기본값은 required=true
+		//defaultValue ="기본값"
 		
 		//페이지 총 개수 가져오기			
 		int count =boardService.pageTotalCount();
@@ -199,19 +209,54 @@ public class BoardController {
 	
 	//MYSQL
 	@RequestMapping(value="/listPage", method=RequestMethod.GET)
-	public void listPage(Criteria cri, Model model) throws Exception{
+	public void listPage(Criteria cri,  
+			@RequestParam(required=false) String searchType,
+			@RequestParam(required=false) String keyword,
+			Model model) throws Exception{
 		
-		model.addAttribute("list", boardService.listCriteria(cri));
+	
 		PageMaker pageMaker =new PageMaker();
 		pageMaker.setCri(cri);
-		
+	
+		logger.info(" searchType : " + searchType + " keyword : " + keyword);
 		//페이지 총 개수 가져오기			
-		int count =boardService.pageTotalCount();
+		int count =boardService.pageTotalCountSearch(searchType, keyword);
+		
+		logger.info("  /페이지 총 개수count " + count );
 		
 		pageMaker.setTotalCount(count);
 		
+		model.addAttribute("list", boardService.listCriteraSearch(cri, searchType, keyword ));
+		model.addAttribute("searchType", searchType);
+		model.addAttribute("keyword", keyword);
 		model.addAttribute("pageMaker", pageMaker);
 	}
+	
+	
+	
+	//MYSQL
+	@RequestMapping(value="/listPage2", method=RequestMethod.GET)
+	public void listPage(SearchCriteria cri,  Model model) throws Exception{
+		
+	
+		PageMaker pageMaker =new PageMaker();
+		pageMaker.setCri(cri);
+	
+		logger.info(" searchType : " + cri.getSearchType() + " keyword : " + cri.getKeyword());
+		//페이지 총 개수 가져오기			
+		int count =boardService.pageTotalCountSearch(cri);
+		
+		logger.info("  /페이지 총 개수count " + count );
+		
+		pageMaker.setTotalCount(count);
+		
+		model.addAttribute("list", boardService.listCriteraSearch(cri);
+		model.addAttribute("pageMaker", pageMaker);
+	}
+	
+	
+	
+	
 	
 	
 	@RequestMapping(value="/view.do", method=RequestMethod.GET)

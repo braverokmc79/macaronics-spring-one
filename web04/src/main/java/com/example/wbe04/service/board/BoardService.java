@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.example.wbe04.model.board.dto.BoardDTO;
 import com.example.wbe04.util.mysql.Criteria;
+import com.example.wbe04.util.mysql.SearchCriteria;
 
 public interface BoardService {
 
@@ -13,8 +14,7 @@ public interface BoardService {
 
 	public void downCont(int idx);
 
-	public int pageTotalCount();
-	
+
 	//MYSQL
 	public List<BoardDTO> listCriteria(Criteria cri) throws Exception;
 
@@ -30,6 +30,17 @@ public interface BoardService {
 	public int replyExist(Integer ref, Integer reorder);
 
 	public void boardUpdate(BoardDTO dto);
+
+	
+	public int pageTotalCount();
+	
+	public int pageTotalCountSearch(String searchType, String keyword);
+
+	public Object listCriteraSearch(Criteria cri, String searchType, String keyword);
+
+	public Object listCriteraSearch(SearchCriteria cri);
+
+	public int pageTotalCountSearch(SearchCriteria cri);
 	
 	
 	

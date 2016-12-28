@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.wbe04.model.board.dto.BoardDTO;
 import com.example.wbe04.util.mysql.Criteria;
+import com.example.wbe04.util.mysql.SearchCriteria;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO {
@@ -188,10 +189,41 @@ public class BoardDAOImpl implements BoardDAO {
 	public void boardUpdate(BoardDTO dto) {
 		// TODO Auto-generated method stub
 		sqlSession.update(namespace+ ".boardUpdate", dto);
+	}
+
+
+
+	@Override
+	public int pageTotalCountSearch(String searchType, String keyword) {
+		// TODO Auto-generated method stub
+		
+		Map<String, Object> map =new HashMap<>();
+		map.put("searchType", searchType);
+		map.put("keyword", keyword);
+		
+		return sqlSession.selectOne(namespace+".pageTotalCountSearch", map);
+	}
+
+
+
+	@Override
+	public List<BoardDTO> listCriteraSearch(Criteria cri, String searchType, String keyword) {
+	
+		Map<String, Object> map =new HashMap<>();
+		map.put("pageStart", cri.getPageStart());
+		map.put("perPageNum", cri.getPerPageNum());
+		map.put("searchType", searchType);
+		map.put("keyword", keyword);
+		
+		return  sqlSession.selectList(namespace +".listCriteraSearch" , map);
 	}	
 	
 	
-	
+	@Override
+	public List<BoardDTO> listCriteraSearch(SearchCriteria cri) {
+			
+		return  sqlSession.selectList(namespace +".listCriteraSearch" , cri);
+	}	
 	
 	
 }
