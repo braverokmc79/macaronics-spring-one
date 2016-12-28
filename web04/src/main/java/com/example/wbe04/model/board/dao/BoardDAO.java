@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.example.wbe04.model.board.dto.BoardDTO;
 import com.example.wbe04.util.mysql.Criteria;
+import com.example.wbe04.util.mysql.SearchCriteria;
 
 public interface BoardDAO {
 
@@ -48,6 +49,12 @@ public interface BoardDAO {
 	public int replyExist(Integer ref, Integer reorder);
 
 	public void boardUpdate(BoardDTO dto);
+
+	public int pageTotalCountSearch(String searchType, String keyword);
+
+	public List<BoardDTO> listCriteraSearch(Criteria cri, String searchType, String keyword);
+
+	List<BoardDTO> listCriteraSearch(SearchCriteria cri);
 	
 	
 }

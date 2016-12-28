@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.wbe04.model.board.dao.BoardDAO;
 import com.example.wbe04.model.board.dto.BoardDTO;
 import com.example.wbe04.util.mysql.Criteria;
+import com.example.wbe04.util.mysql.SearchCriteria;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -117,6 +118,31 @@ public class BoardServiceImpl implements BoardService {
 		// TODO Auto-generated method stub
 		
 		boardDAO.boardUpdate(dto);
+	}
+
+	@Override
+	public int pageTotalCountSearch(String searchType, String keyword) {
+		// TODO Auto-generated method stub
+		return boardDAO.pageTotalCountSearch(searchType, keyword);
+				
+	}
+
+	@Override
+	public Object listCriteraSearch(Criteria cri, String searchType, String keyword) {
+		// TODO Auto-generated method stub
+		return boardDAO.listCriteraSearch(cri, searchType, keyword);
+	}
+
+	@Override
+	public Object listCriteraSearch(SearchCriteria cri) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int pageTotalCountSearch(SearchCriteria cri) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 	

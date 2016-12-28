@@ -32,6 +32,26 @@
 	<a class="btn btn-info"   href="/board/write.do" >글쓰기</a>
 </div>
 
+<hr>
+
+
+<!-- 검색폼 -->
+<form method="get" action="/board/listPage" >
+<select name="searchType">
+	 <option value="" <c:out value="${ param.searchType eq null ? 'selected' : ''  }" />  >
+	 선택 </option>
+  	<option value="userid" <c:out value="${ param.searchType eq 'userid' ? 'selected' : ''  }" />  >아이디</option>
+	<option value="username" <c:out value="${ param.searchType eq 'username' ? 'selected' : ''  }" />  >글쓴이</option>
+	<option value="subject" <c:out value="${ param.searchType eq 'subject' ? 'selected' : ''  }" />  >제목</option>
+	<option value="content" <c:out value="${ param.searchType eq 'content' ? 'selected' : ''  }" /> >내용</option>
+	<option value="all" <c:out value="${ param.searchType eq 'all' ? 'selected' : ''  }" />  >전체</option>
+</select>
+<input type="text"  name="keyword" value="${param.keyword }" ><button type="submit"  class="btn btn-info">검색</button>
+</form>
+
+<hr>
+
+
 <div class="table-responsive">
 <table class="table table-bordered table-striped" style="background-color: white; margin: 10px 0 10px 0;">
 <colgroup>
@@ -106,23 +126,23 @@
    <div class="pagination">
 	  <ul>
 	  <c:if test="${ param.page > 1}">
-	  	  	<li><a href="/board/listPage${ pageMaker.makeQuery(1) }">[시작]</a></li>
+	  	  	<li><a href="/board/listPage${ pageMaker.makeQuery(1) }&searchType=${param.searchType }&keyword=${param.keyword }">[시작]</a></li>
 	  </c:if>
 	  
 	   <c:if test="${ pageMaker.prev }">
-	   	<li><a href="/board/listPage${ pageMaker.makeQuery(pageMaker.startPage - 1) }">&laquo;</a></li>
+	   	<li><a href="/board/listPage${ pageMaker.makeQuery(pageMaker.startPage - 1) }&searchType=${param.searchType }&keyword=${param.keyword }">&laquo;</a></li>
 	   </c:if>
 	       
 	  <c:forEach  begin="${ pageMaker.startPage }" end="${ pageMaker.endPage }" step="1"  var="pageNum">	 
 		<c:choose>
 		  <c:when test="${ pageMaker.cri.page == pageNum }">
 		       <li class="active">
-	  	 	<a href="/board/listPage${pageMaker.makeQuery(pageNum) }" style="background:#E85356; color:white; ">${pageNum }</a>
+	  	 	<a href="/board/listPage${pageMaker.makeQuery(pageNum) }&searchType=${param.searchType }&keyword=${param.keyword }" style="background:#E85356; color:white; ">${pageNum }</a>
 	  	 		</li>
 		  </c:when>
 		  <c:otherwise>
 		       <li>
-	  	 	<a href="/board/listPage${pageMaker.makeQuery(pageNum) }">${pageNum }</a>
+	  	 	<a href="/board/listPage${pageMaker.makeQuery(pageNum) }&searchType=${param.searchType }&keyword=${param.keyword }">${pageNum }</a>
 	  	 		</li>
 		  </c:otherwise>
 		</c:choose>
@@ -130,12 +150,12 @@
 	  </c:forEach>
 	 	 
 	 	<c:if test="${pageMaker.next && pageMaker.endPage > 0 }" >
-	 		<li><a href="/board/listPage${pageMaker.makeQuery(pageMaker.endPage + 1) }">&raquo;</a></li>
+	 		<li><a href="/board/listPage${pageMaker.makeQuery(pageMaker.endPage + 1) }&searchType=${param.searchType }&keyword=${param.keyword }">&raquo;</a></li>
 	 	</c:if>   
 	  
 	  <!-- 마지막 페이지 -->
 	  <c:if test="${ param.page < pageMaker.tempEndPage}">
-	    <li><a href="/board/listPage${ pageMaker.makeQuery(pageMaker.tempEndPage) }">[끝]</a></li>
+	    <li><a href="/board/listPage${ pageMaker.makeQuery(pageMaker.tempEndPage) }&searchType=${param.searchType }&keyword=${param.keyword }">[끝]</a></li>
 	  </c:if>
 	    
 	    
@@ -148,6 +168,47 @@
 </table>
 </div>
 		
+
+<%--   <div class="pagination">
+	  <ul>
+	  <c:if test="${ param.page > 1}">
+	  	  	<li><a href="/board/listPage${ pageMaker.makeSearch(1) }">[시작]</a></li>
+	  </c:if>
+	  
+	   <c:if test="${ pageMaker.prev }">
+	   	<li><a href="/board/listPage${ pageMaker.makeSearch(pageMaker.startPage - 1) }">&laquo;</a></li>
+	   </c:if>
+	       
+	  <c:forEach  begin="${ pageMaker.startPage }" end="${ pageMaker.endPage }" step="1"  var="pageNum">	 
+		<c:choose>
+		  <c:when test="${ pageMaker.cri.page == pageNum }">
+		       <li class="active">
+	  	 	<a href="/board/listPage${pageMaker.makeSearch(pageNum) }" style="background:#E85356; color:white; ">${pageNum }</a>
+	  	 		</li>
+		  </c:when>
+		  <c:otherwise>
+		       <li>
+	  	 	<a href="/board/listPage${pageMaker.makeSearch(pageNum) }">${pageNum }</a>
+	  	 		</li>
+		  </c:otherwise>
+		</c:choose>
+		
+	  </c:forEach>
+	 	 
+	 	<c:if test="${pageMaker.next && pageMaker.endPage > 0 }" >
+	 		<li><a href="/board/listPage${pageMaker.makeSearch(pageMaker.endPage + 1) }">&raquo;</a></li>
+	 	</c:if>   
+	  
+	  <!-- 마지막 페이지 -->
+	  <c:if test="${ param.page < pageMaker.tempEndPage}">
+	    <li><a href="/board/listPage${ pageMaker.makeSearch(pageMaker.tempEndPage) }">[끝]</a></li>
+	  </c:if>
+	    
+	    
+	  </ul>
+  </div> --%>
+
+
 
 
 
