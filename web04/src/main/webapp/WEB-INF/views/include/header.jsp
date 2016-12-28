@@ -75,7 +75,7 @@
 
 		<body>
 
- <%
+<%--  <%
 			MemberDTO  dto =new MemberDTO();
 			dto.setUserid("admin");
 			dto.setEmail("braverokmc79@gmail.com");
@@ -86,7 +86,7 @@
 
 
 %>
- 
+  --%>
 
 
 

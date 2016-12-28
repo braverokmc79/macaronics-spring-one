@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.example.wbe04.model.member.dto.MemberDTO;
+import com.example.wbe04.util.encoder.PasswordEncoding;
 
 @Repository
 public class MemberDAOImpl implements MemberDAO {
@@ -45,6 +46,17 @@ public class MemberDAOImpl implements MemberDAO {
 		
 		
 		return dto;
+	}
+
+	
+
+
+	//DB에 있는 유저 아이디 와 DB에 저장 된 패스워드 가져오기
+	@Override
+	public String loginPasswd(String userid) {
+		
+	
+		return sqlSession.selectOne(namespsce+".loginPasswd", userid);
 	}
 
 	

@@ -12,6 +12,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	
+<!--	# AES_DECRYPT 복호화
+ SELECT AES_DECRYPT(UNHEX(필드명), '가나다라') FROM tbname;  -->
+	<select id="loginPasswd" resultType="string">
+	   select AES_DECRYPT(UNHEX(userpw), 'java$$##1') from tbl_member where userid=#{userid} 
+	</select>
+	
+	
 	
 </mapper>
 

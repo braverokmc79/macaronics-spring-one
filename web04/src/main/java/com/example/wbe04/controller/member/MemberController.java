@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.wbe04.model.member.dao.MemberDAO;
 import com.example.wbe04.model.member.dto.MemberDTO;
+import com.example.wbe04.util.encoder.PasswordEncoding;
 
 @Controller
 @RequestMapping(value="/member")
@@ -25,6 +26,45 @@ public class MemberController {
 	private MemberDAO memberDAO;
 	
 	
+	@Inject
+	private PasswordEncoding passwordEncoding;
+	
+
+	
+	@RequestMapping(value="/login", method=RequestMethod.POST)
+	public String login2(String userid, String userpw, HttpServletRequest request, RedirectAttributes rttr){
+		
+		
+		
+		try{	
+			//DB에서 가져온 패스워드
+			String dbPw=memberDAO.loginPasswd(userid);
+			//내가 입력한 input 패스워드 와 매치 해서 비교
+			//true 일치.
+			logger.info("DB에서 가져온 dbpw 값: " +dbPw );
+			if(passwordEncoding.matches(userpw, dbPw)){
+				
+				HttpSession session =request.getSession(false);
+				MemberDTO dto =new MemberDTO();
+				dto.setUserid(userid);
+				dto.setUsername("홍길동");
+				session.setAttribute("loginUser", dto);
+				return "redirect:/";
+			}else{
+				rttr.addFlashAttribute("loginError", "아이디 또는 패스워드가 일치하지 않습니다.");	
+				
+				return "redirect:login";
+			}
+			
+		}catch(Exception e){
+			logger.info(e.getMessage());
+			return "redirect:login";
+		}
+		
+	}
+	
+	
+	
 	
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public String login(){
@@ -35,7 +75,7 @@ public class MemberController {
 	
 	
 	
-	@RequestMapping(value="/login", method=RequestMethod.POST)
+	@RequestMapping(value="/login2", method=RequestMethod.POST)
 	public String login(String userid, String userpw, HttpServletRequest request, RedirectAttributes rttr){
 		logger.info("login 호출  POST....");
 		MemberDTO dto =null;

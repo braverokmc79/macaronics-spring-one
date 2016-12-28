@@ -32,6 +32,23 @@
 	<a class="btn btn-info"   href="/board/write.do" >글쓰기</a>
 </div>
 
+
+<hr>
+<form >
+<select name="select_option">
+	<option value=""></option>
+	<option value="username">이름</option>
+	<option value="userid">아이디</option>
+	<option value="subject">제목</option>
+	<option value="content">내용</option>
+	<option value="all">전체</option>
+</select>
+<input type="text" name="keyword" class="form-control">
+<button type="button" class="btn btn-info" >검색</button>
+</form>
+<hr>
+
+
 <div class="table-responsive">
 <table class="table table-bordered table-striped" style="background-color: white; margin: 10px 0 10px 0;">
 <colgroup>
