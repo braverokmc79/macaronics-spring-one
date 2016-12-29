@@ -30,6 +30,12 @@
                 %>
                 
                 
+               <li  <c:if test='<%= uri.contains("pdf") %>' > class="sub-menu active" </c:if>  >
+              	<a href="/pdf/pdf_save.do" >PDF 문서생성</a>
+              		
+              	</li>
+                
+                
                 
                 <li  <c:if test='<%= uri.contains("guestbook") %>' > class="sub-menu active" </c:if>  >
               	<a href="/guestbook/list" >방명록</a>
