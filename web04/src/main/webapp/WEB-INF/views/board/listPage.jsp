@@ -32,6 +32,7 @@
 	<a class="btn btn-info"   href="/board/write.do" >글쓰기</a>
 </div>
 
+<hr>
 
 
 <!-- 검색폼 -->
@@ -47,7 +48,6 @@
 </select>
 <input type="text"  name="keyword" value="${param.keyword }" ><button type="submit"  class="btn btn-info">검색</button>
 </form>
-
 
 <hr>
 
