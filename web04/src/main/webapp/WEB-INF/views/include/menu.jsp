@@ -69,7 +69,14 @@
                
                
               <c:when test="${ not empty loginUser }">
-              	<li><a href="">${ loginUser.username} 님 </a></li>
+              	<li><a href="">${ loginUser.username} 님 </a>
+              		<ul>
+	                    <li><a href="/member/member_info.do">정보 수정 </a></li>
+	                  
+                 	 </ul>
+              	</li>
+              	
+              	
               	<li><a href="/member/logout">로그아웃</a></li>
               </c:when>
                 <c:otherwise>

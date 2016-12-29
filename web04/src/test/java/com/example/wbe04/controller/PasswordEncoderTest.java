@@ -4,14 +4,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.example.wbe04.util.password.EncodPassword;
-import com.example.wbe04.util.password.PasswordEncoding;
-import com.example.wbe04.util.password.SHAPasswordEncoder;
+import com.example.wbe04.util.encoder.EncodPassword;
 
 
 

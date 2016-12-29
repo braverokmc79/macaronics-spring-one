@@ -13,33 +13,18 @@ public class MemberDTO {
 	private String userpw;
 	private String username;
 	private String email;
-	private String address;
+	
 	private String tel;
 
+	private String zipcode;
+	private String address1;
+	private String address2;
+	
 	private Date regdate;
 	private Date updatedate;
 	
 	
-	public void setUserid(String userid) {
-		this.userid = FormTagReplace.chagne(userid);
-	}
 	
-	
-	public void setUsername(String username) {
-		this.username = FormTagReplace.chagne(username);
-	}
-	
-	public void setEmail(String email) {
-		this.email = FormTagReplace.chagne(email);
-	}
-	
-	public void setAddress(String address) {
-		this.address = FormTagReplace.chagne(address);
-	}
-	
-	public void setTel(String tel) {
-		this.tel = FormTagReplace.chagne(tel);
-	}
 	
 }
 

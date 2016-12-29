@@ -250,7 +250,7 @@ public class BoardController {
 		
 		pageMaker.setTotalCount(count);
 		
-		model.addAttribute("list", boardService.listCriteraSearch(cri);
+		model.addAttribute("list", boardService.listCriteraSearch(cri));
 		model.addAttribute("pageMaker", pageMaker);
 	}
 	

@@ -36,14 +36,14 @@ public class PasswordTest {
 	@Test
 	public void passTest() throws Exception{
 		
-		String dbpass =EncodPassword.dbSavePassword("1111");
+		String dbpass =EncodPassword.dbSavePassword("Knowledge876Knowledge876Knowledge876");
 		
 		System.out.println("DB에 저장 될 암호 ex) 1111: " + dbpass);
 		// EncodPassword.dbPassword() 만 호출해서 반환 값만 DB 에 저장하면 된다.
 		// 같은 값이 들어가도 반환 된 값은 랜덤하게 출력 된다. 
 		
 		// 테스트 로그인 할 유저  매치 값 비교하기  true 로 나오면 설정 완료
-		System.out.println("값 비교: " + EncodPassword.getPasswordEncoding().matches("1111", dbpass));
+		System.out.println("값 비교: " + EncodPassword.getPasswordEncoding().matches("Knowledge876Knowledge876Knowledge876", dbpass));
 		
 		
 	}

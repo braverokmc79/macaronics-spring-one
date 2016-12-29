@@ -8,7 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	
 	<select id="login" resultType="MemberDTO">
-	   select * from tbl_member where userid=#{userid} and userpw=#{userpw}
+	   select * from tbl_member where userid=#{userid} and userpw= HEX(AES_ENCRYPT(#{userpw},'java$$##1'))
 	</select>
 	
 	
@@ -17,6 +17,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="loginPasswd" resultType="string">
 	   select AES_DECRYPT(UNHEX(userpw), 'java$$##1') from tbl_member where userid=#{userid} 
 	</select>
+	
+	
+	<select id="loginInfo"   resultType="MemberDTO">
+	  select * from tbl_member where userid=#{userid}
+	</select>
+	
+	
+	<update id="memberUpdate">
+	 update tbl_member SET address1 =#{address1} , address2 =#{address2}, 
+	   email=#{email}, tel=#{tel}, zipcode=#{zipcode} , username =#{username} 
+		, userpw =HEX(AES_ENCRYPT(#{userpw},'java$$##1'))
+	    where  userid =#{userid} ;
+	 
+	</update>
 	
 	
 	

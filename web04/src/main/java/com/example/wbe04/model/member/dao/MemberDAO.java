@@ -7,4 +7,11 @@ public interface MemberDAO {
 	public MemberDTO login(String userid, String userpw );
 	
 	public String loginPasswd(String userid);
+
+	public MemberDTO loginInfo(String userid);
+
+	public void memberUpdate(MemberDTO memberDTO);
+	
+	
+	
 }

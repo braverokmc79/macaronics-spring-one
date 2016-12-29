@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -18,7 +19,6 @@ import com.example.wbe04.util.encoder.PasswordEncoding;
 @Controller
 @RequestMapping(value="/member")
 public class MemberController {
-
 
 	private static Logger logger =LoggerFactory.getLogger(MemberController.class);
 	
@@ -45,9 +45,9 @@ public class MemberController {
 			if(passwordEncoding.matches(userpw, dbPw)){
 				
 				HttpSession session =request.getSession(false);
-				MemberDTO dto =new MemberDTO();
-				dto.setUserid(userid);
-				dto.setUsername("홍길동");
+				//다시 로그인 수정
+				MemberDTO dto  =memberDAO.login(userid, dbPw);
+		
 				session.setAttribute("loginUser", dto);
 				return "redirect:/";
 			}else{
@@ -114,8 +114,54 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
+	
+	
+	@RequestMapping(value="/member_info.do", method =RequestMethod.GET)
+	public String member_info(HttpSession session){
 		
+		MemberDTO   member=(MemberDTO)  session.getAttribute("loginUser");
+		if(member!=null){
+			
+			// 정보 업데이트 유저를 위해 시 DB에서 정보를 가져와서 셋팅 한다.
+			member=memberDAO.loginInfo(member.getUserid());
+			
+			session.removeAttribute("loginUser");
+			session.setAttribute("loginUser", member);
+			
+			return "/member/member_info";
+		}else{
+			
+			return "redirect:/";
+		}
+	}
+	
+	
+	@RequestMapping(value="/jusoPopup")
+	public String jusoPopup(){
+		logger.info("jusoPopup GET 호출 ....");
+		
+		return "/member/jusoPopup";
+	}	
+
+
+	@RequestMapping(value="/memebrUpate.do" , method=RequestMethod.POST)
+	public String memebrUpdate(@ModelAttribute MemberDTO memberDTO , RedirectAttributes rttr){
+		
+		//패스워드 암호화
+		String userpw =passwordEncoding.encode(memberDTO.getUserpw());
+		memberDTO.setUserpw(userpw);
+		
+		memberDAO.memberUpdate(memberDTO);
+		
+		
+		rttr.addFlashAttribute("message", "정보가 변경 되었습니다.");
+
+		return "redirect:member_info.do";
+	}
+	
 	
 	
 	
 }
+
+

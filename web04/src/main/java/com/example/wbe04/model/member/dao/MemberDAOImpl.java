@@ -59,6 +59,24 @@ public class MemberDAOImpl implements MemberDAO {
 		return sqlSession.selectOne(namespsce+".loginPasswd", userid);
 	}
 
+
+
+
+	@Override
+	public MemberDTO loginInfo(String userid) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(namespsce+ ".loginInfo", userid);
+	}
+
+
+
+
+	@Override
+	public void memberUpdate(MemberDTO memberDTO) {
+		// TODO Auto-generated method stub
+		sqlSession.update(namespsce+".memberUpdate", memberDTO);
+	}
+
 	
 	
 	

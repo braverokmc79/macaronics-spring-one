@@ -456,3 +456,33 @@ post_date Timestamp default now()
 	
 	
 	
+INSERT  INTO tbl_member (userid, userpw, username ) 
+
+	value( 'qpeet5', HEX(AES_ENCRYPT('$2a$10$pfNRCrXHJz1AfuJKjwezJebzo5TcHIMMyagaaZeJz2oQ4A5nKOzuy','java$$##1')), '강아지'  );
+	
+	
+
+alter table tbl_member add zipcode varchar(30) ;
+alter table tbl_member add address1 varchar(500);
+alter table tbl_member add address2 varchar(100);	
+alter table tbl_member drop address;
+	
+
+
+create table zipcode(
+
+	postcode  varchar(10) not null,
+	sido varchar(50) not null,
+	gugun varchar(50) not null,
+	road_name varchar(50),
+	bulid_no1 int,
+	build_no2 int,
+	build_name varchar(100),
+	dong1 varchar(50),
+	dong2 varchar(50),
+	bunji1 int ,
+	bunji2 int
+
+);
+
+
