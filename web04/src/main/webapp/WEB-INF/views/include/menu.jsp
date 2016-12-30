@@ -29,11 +29,15 @@
                   //out.print(request.getSession().getServletContext().getRealPath("/"));
                 %>
                 
+              
+               <li  <c:if test='<%= uri.contains("chart") %>' > class="sub-menu active" </c:if>  >
+              	<a href="/chart/json.do" >구글 차트</a>		
+               </li>
+                
                 
                <li  <c:if test='<%= uri.contains("pdf") %>' > class="sub-menu active" </c:if>  >
-              	<a href="/pdf/pdf_save.do" >PDF 문서생성</a>
-              		
-              	</li>
+              	<a href="/pdf/pdf_save.do" >PDF 문서생성</a>		
+              </li>
                 
                 
                 
@@ -41,6 +45,7 @@
               	<a href="/guestbook/list" >방명록</a>
               		<ul>
                     <li><a href="/guestbook/write">방명록 등록</a></li>
+                    <li><a href="/mail/mail_form.do">구글 이메일</a></li>
                   </ul>
               	</li>
              	

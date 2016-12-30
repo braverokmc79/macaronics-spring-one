@@ -171,8 +171,6 @@
 							<label for="exampleInputPassword1">Content</label>
 							<textarea class="form-control" name="content" rows="3" id="content"></textarea>
 						
-
-
 			<!-- include summernote-ko-KR -->
 			<script src="/summernote/lang/summernote-ko-KR.js"></script>
 								
