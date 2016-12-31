@@ -17,15 +17,15 @@
 	
 	<!-- include libraries(jQuery, bootstrap) 충돌 섬머노트 -->
  <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet"> 
- <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>  
+ <!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>   -->
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
 
 <!-- include summernote css/js-->
 <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css" rel="stylesheet">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js"></script>
 
-
-	
+<!--  스마트 에디터 -->
+<script type="text/javascript" src="/resources/smarteditor2.0/js/service/HuskyEZCreator.js" charset="utf-8"></script>	
 	
 	
 <link rel="stylesheet" href="/resources/template/css/bootstrap.css" type="text/css" media="screen"> 
@@ -34,7 +34,7 @@
 	
 	
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
-	 <!-- <script type="text/javascript" src="/resources/template/js/jquery.js"></script>  -->
+	 <script type="text/javascript" src="/resources/template/js/jquery.js"></script>  
 	<script type="text/javascript" src="/resources/template/js/superfish.js"></script>
     <script type="text/javascript" src="/resources/template/js/jquery.easing.1.3.js"></script>
 	<script type="text/javascript" src="/resources/template/js/jquery.cookie.js"></script>
@@ -101,8 +101,8 @@
 <h3>이메일 쓰기</h3>
 <p style="color:red;">${param.message }</p>
 
-<form action="/mail/mail_sender.do" method="post">
-<table class="table">
+<form action="/mail/mail_sender.do" method="post" style="background-color: white;"  id="form1">
+<table class="table" style="background-color: white;">
 
 <tr>
  <th>발신자 이름</th>
@@ -130,19 +130,20 @@
  <th>메시지</th>
  <td><textarea name="message"  class="form-control" id="message"></textarea>
  
- 			<!-- include summernote-ko-KR -->
-			<script src="/summernote/lang/summernote-ko-KR.js"></script>
+ <script type="text/javascript">
+var oEditors = [];
+nhn.husky.EZCreator.createInIFrame({
+    oAppRef: oEditors,
+    elPlaceHolder: "message",
+    sSkinURI: "/resources/smarteditor2.0/SmartEditor2Skin.html",
+    fCreator: "createSEditor2"
+});
+
+
+
+</script>
 								
-						<script type="text/javascript">
-						$(document).ready(function() {
-							//아이디가 content 에 서머노트를 적용 한다.
-							  $('#message').summernote({
-								  height:600  ,
-								  lang: 'ko-KR' // default: 'en-US'
-							  });
-						});
 						
-						</script>
  
  </td>
 </tr>
@@ -152,13 +153,10 @@
 
 <tr>
 <td colspan="2">
-<input type="submit" value="확인"  class="btn btn-info"/>
+<input type="submit" value="메일 보내기"  class="btn btn-info"  id="mailSubBtn"/>
 </td>
 </tr>
 </table>
-
-
-
 
 
 
@@ -170,6 +168,46 @@
 
 </div>
 
+
+
+
+<script>
+
+$(document).ready(function(){
+	
+	
+	$("#mailSubBtn").click(function(){
+		
+		
+		 submitContents($("#form1"));
+		
+	
+	});
+
+	
+
+	
+	
+	
+});
+
+
+
+// ‘저장’ 버튼을 누르는 등 저장을 위한 액션을 했을 때 submitContents가 호출된다고 가정한다.
+function submitContents(elClickedObj) {
+    // 에디터의 내용이 textarea에 적용된다.
+    oEditors.getById["message"].exec("UPDATE_CONTENTS_FIELD", []);
+ 
+    // 에디터의 내용에 대한 값 검증은 이곳에서
+    // document.getElementById("ir1").value를 이용해서 처리한다.
+ 
+    try {
+        elClickedObj.form.submit();
+    } catch(e) {}
+
+}
+
+</script>
 
 
 

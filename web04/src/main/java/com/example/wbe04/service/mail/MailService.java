@@ -9,6 +9,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import com.example.wbe04.model.mail.dao.MailDAO;
 import com.example.wbe04.model.mail.dto.MailDTO;
 
 @Service
@@ -17,11 +18,15 @@ public class MailService {
 	@Inject
 	JavaMailSender mailSender;
 	
+	@Inject
+	MailDAO mailDao;
+	
+	
 	public void sendMail(MailDTO dto){
 	    try {
 			MimeMessage msg =mailSender.createMimeMessage();
 			//javax.mail.internet.MimeMessage.RecipientType;
-			//이메일 수신자
+			//이메일 수신자	
 			msg.addRecipient(RecipientType.TO,
 					new InternetAddress(dto.getReceiveMail()));
 			
@@ -29,12 +34,20 @@ public class MailService {
 			msg.addFrom(new InternetAddress[]{
 					new InternetAddress(dto.getSenderMail(), dto.getSenderName())
 			});
+			
+			
 			//제목
 			msg.setSubject(dto.getSubject(), "utf-8");
 			//본문
 			msg.setText(dto.getMessage(), "utf-8");
+			
+			// 이메일 헤더 
+            msg.setHeader("content-Type", "text/html");
+            
 			//메일 발송
 			mailSender.send(msg);
+			
+			mailDao.mailInsert(dto);
 			
 		} catch (Exception e) {
 			// TODO: handle exception

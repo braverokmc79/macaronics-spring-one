@@ -486,3 +486,14 @@ create table zipcode(
 );
 
 
+create TABLE  tbl_mail(
+   idx int AUTO_INCREMENT  not null PRIMARY KEY ,
+   senderName VARCHAR(100), 
+   senderMail varchar(200),
+   receiveMail varchar(100),
+   subject varchar(200),
+   message text
+   
+
+);
+
