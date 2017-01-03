@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 다른 mapper와 중복되지 않도록 네임스페이스 기재 -->
+<mapper namespace="board.Mapper">
+	
+	
+<!-- 	        MYSQL -->
+
+<!-- <select id="listPage" resultType="BoardDTO">
+		select * from board where idx > 0 order by ref desc, reorder asc limit #{page} , 10
+</select>
+
+ -->
+ 
+
+<select id="pageTotalCount" resultType="int">
+  select count(*) from board
+</select>
+	
+<select id="listCritera" resultType="BoardDTO">
+		select * from board_v  order by  ref desc, reorder asc  limit #{pageStart} , #{perPageNum}
+</select>
+
+
+<!-- 서치 시작 *****************     -->
+
+<sql id="search">
+ <if test="searchType !=null" >
+ 	 <if test="searchType == 'userid' ||  searchType == 'username' || searchType == 'subject' || searchType == 'content'">
+ 		and ${searchType} like concat('%', #{keyword}, '%')
+ 	 </if>
+</if>	
+
+<if test="searchType== 'all' ">
+	and ( userid like concat('%', #{keyword} , '%')
+	 or  username like concat('%', #{keyword} , '%')
+	 or  subject like concat('%', #{keyword} , '%')
+	 or  content like concat('%', #{keyword} , '%')
+	 )
+</if>
+
+</sql>
+
+<select id="pageTotalCountSearch" resultType="int">
+	select count(*) from board_v where idx > 0
+	
+	<include refid="search"></include>
+</select>
+
+
+<select id="listCriteraSearch" resultType="BoardDTO">
+		select * from board_v  
+		 where idx > 0
+
+	<include refid="search"></include>
+		
+		order by  ref desc, reorder asc  limit #{pageStart} , #{perPageNum}
+</select>
+
+
+<!-- 서치 end *****************     -->
+
+
+<!--  현재 삽입한 idx 번호값 가져오기 -->
+<select id="lastInsertIdx" resultType="int">
+ select idx from board where idx=Last_insert_id()
+</select>
+
+<!--  ref 업데이트 하기 -->
+<update id="refUpdate">
+ update board set ref=#{idx} where idx=#{idx}
+</update>
+
+
+<!--  업데이트 하기 -->
+<update id="boardUpdate">
+ update board set subject =#{subject}, content =#{content} , fileName=#{fileName}, filesize=#{filesize} 
+  where idx =#{idx}
+</update>
+	
+	
+	<insert id="boardInsert">
+	
+ INSERT INTO board( userid ,subject ,content ,fileName ,filesize ) 
+		VALUES (#{userid} ,#{subject} ,#{content} , #{fileName} , #{filesize} ) 
+	</insert>
+	
+
+	
+	
+	<update id="downCont">
+		update board set down =down+1  where idx = #{idx};
+	</update>
+
+
+
+	<select id="boardView"  resultType="BoardDTO">
+		select * from board_v where idx=#{idx}
+	</select>
+
+<!-- 조회수 증가 -->
+	<update id="updateHit">
+	update board set hit=hit+1 where idx=#{idx};
+	 
+	</update>
+
+
+   <!--  같은 그룹내에서 순서 조정 ref (답변글) 현재 reorder 번호보다 큰것들은 1씩 증가-->
+	<update id="reorderUpdate">
+		update board set reorder =reorder +1
+		where ref =#{ref} and reorder > #{reorder}
+	</update>
+
+	
+	<insert id="replyInsert">
+	 INSERT INTO board( userid ,subject ,content , ref, depth, reorder ) 
+		VALUES (#{userid} ,#{subject} ,#{content} , #{ref}, #{depth}, #{reorder}) 	
+	</insert>
+	
+	
+	<select id="replyExist" resultType="int">
+		select count(*) from board where ref=#{ref} and reorder > #{reorder};
+	</select>
+	
+	<delete id="boardDelete" >
+		DELETE  FROM board WHERE idx=#{idx}
+	</delete>
+	
+
+<!-- 
+	<select id="boardList" resultType="BoardDTO">
+		
+ select idx, userid, username, subject, hit, post_date, rn 
+  
+ from
+ 	(
+	select A.*, rownum as rn
+	 from
+	(
+		select b.IDX , b.USERID, m.username, b.SUBJECT, b.HIT, b.POST_DATE   from board b, tbl_member m
+		
+		where  b.userid =m.userid
+		order by idx desc
+	) A
+
+ )
+  where  rn BETWEEN #{start} and #{end}
+
+	
+	</select>
+	
+	
+	<insert id="boardInsert">
+	
+ INSERT INTO board( userid ,subject ,content ,fileName ,filesize ) 
+		VALUES (#{userid} ,#{subject} ,#{content} , #{fileName} , #{filesize} ) 
+	</insert>
+	
+	<update id="downCont">
+		update board set down =down+1  where idx = #{idx};
+	</update>
+
+
+	
+	<select id="pageTotalCount" resultType="int">
+	  select count(*) from board
+	</select>
+
+
+ -->
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
